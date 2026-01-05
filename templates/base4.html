@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Base No.4 | Power Supply</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_base.css') }}">
+  </head>
+
+  <body id="page-base">
+    <header class="page-header">
+      <h1>Base No.4 — Power Supply<br>ベース No.4 — 電源</h1>
+      <p>Control → Assisted Workflow (~15 min)<br>Control → Assisted の流れ（約15分）</p>
+      <span id="timer-display" class="timer">⏱ 00:00</span>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <h2>Base Object<br>ベース対象</h2>
+        <p>
+          <strong>Power Supply</strong> — battery, adapter, power bank, wireless dock, etc.; accessories allowed.<br>
+          <strong>電源：</strong> バッテリー・ACアダプタ・モバイルバッテリー・無線充電台など。関連アクセサリも可。
+        </p>
+      </section>
+
+      <form id="form-base4" class="card" method="POST" action="{{ url_for('base4') }}" enctype="multipart/form-data">
+        <input type="hidden" name="base_id" value="4">
+        <input type="hidden" name="base_name" value="Power Supply">
+        <input type="hidden" name="step" value="control">
+
+        <h2>Step A — Describe the Base<br>ステップA — Baseの記述</h2>
+        <label class="block">
+          <span>Your understanding / assumptions<br>あなたの理解・前提</span>
+          <textarea name="base_desc" rows="3" required
+            placeholder="A device/system delivering electrical power...&#10;（例）電力を供給する装置や仕組み。"></textarea>
+        </label>
+
+        <h2>Step B — Idea 1 (Control)<br>ステップB — アイデア1（Control）</h2>
+
+        <label class="block">
+          <span>Problem descriptors (3–5 short phrases)<br>問題点の記述（3〜5語句）</span>
+          <input name="descriptors" type="text" required
+            placeholder="overheats, heavy, slow charging&#10;発熱, 重い, 充電が遅い">
+        </label>
+
+        <label class="block">
+          <span>Optional keywords<br>任意のキーワード</span>
+          <input name="keywords" type="text" placeholder="modular, eco, bidirectional&#10;モジュール, エコ, 双方向">
+        </label>
+
+        <label class="block">
+          <span>Reasoning (2–3 sentences)<br>組合理由（2〜3文）</span>
+          <textarea name="reason" rows="3" required
+            placeholder="Why this concept? Who benefits?&#10;なぜこの構想か／誰にどんな利点があるか。"></textarea>
+        </label>
+
+        <label class="block">
+          <span>Proposed concept (1–3 sentences)<br>提案コンセプト（1〜3文）</span>
+          <textarea name="concept" rows="3" required
+            placeholder="Clearly state the core idea.&#10;コアとなる着想を明確に簡潔に。"></textarea>
+        </label>
+
+        <label class="block">
+          <span>Optional sketch (PNG/JPG)<br>任意：スケッチ（PNG/JPG）</span>
+          <input type="file" name="sketch" accept=".png,.jpg,.jpeg">
+        </label>
+
+        <div class="form-actions">
+          <button type="submit" class="btn">Submit Idea 1 &amp; Continue<br>送信して続行</button>
+        </div>
+      </form>
+
+      <section class="card">
+        <h3>After submission<br>送信後</h3>
+        <ol>
+          <li>The system will show candidate <em>Contrary traits</em> and <em>Additives</em>.<br>システムが <em>Contrary 特徴</em> と <em>Additive 候補</em> を表示します。</li>
+          <li>You will create <strong>Idea 2 (Assisted)</strong> next.<br>次に <strong>アイデア2（Assisted）</strong> を作成します。</li>
+        </ol>
+      </section>
+
+      <nav class="page-nav">
+        <a class="btn btn-secondary" href="{{ url_for('base3') }}">⏵ Back<br>戻る</a>
+        <a class="btn btn-secondary" href="{{ url_for('instructions') }}">Save &amp; return later<br>保存して後で再開</a>
+      </nav>
+    </main>
+
+    <script>
+      let startTime, timerInterval;
+      function startTimer(){ startTime = Date.now(); localStorage.setItem('base4Start', String(startTime)); timerInterval=setInterval(updateTimer,1000); }
+      function updateTimer(){ const d=document.getElementById('timer-display'); const t=Math.floor((Date.now()-startTime)/1000); const m=String(Math.floor(t/60)).padStart(2,'0'); const s=String(t%60).padStart(2,'0'); d.textContent=`⏱ ${m}:${s}`; }
+      function stopTimer(){ if(!startTime)return; const total=Math.floor((Date.now()-startTime)/1000); localStorage.setItem('base4TimeSpent', String(total)); clearInterval(timerInterval); }
+      window.addEventListener('DOMContentLoaded', startTimer);
+      window.addEventListener('beforeunload', stopTimer);
+    </script>
+  </body>
+</html>

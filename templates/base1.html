@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Base No.1 | Pen</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_base.css') }}">
+  </head>
+
+  <body id="page-base">
+    <header class="page-header">
+      <h1>Base No.1 — Pen<br>ベース No.1 — ペン</h1>
+      <p>Control → Assisted Workflow (~15 min)<br>Control → Assisted の流れ（約15分）</p>
+      <span id="timer-display" class="timer">⏱ 00:00</span>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <h2>Base Object<br>ベース対象</h2>
+        <p>
+          <strong>Pen</strong> — any common writing instrument (pencil, ballpoint, fountain pen, marker, etc.).<br>
+          <strong>ペン：</strong> 鉛筆・ボールペン・万年筆・マーカーなどの一般的な筆記具。必要に応じて、クリップ・キャップ・ホルダーなど周辺アクセサリも含めて構いません。
+        </p>
+      </section>
+
+      <form id="form-base1" class="card" method="POST" action="{{ url_for('base1') }}" enctype="multipart/form-data">
+        <input type="hidden" name="base_id" value="1">
+        <input type="hidden" name="base_name" value="Pen">
+        <input type="hidden" name="step" value="control">
+
+        <h2>Step A — Describe the Base<br>ステップA — Baseの記述</h2>
+        <label class="block">
+          <span>Your understanding / assumptions<br>あなたの理解・前提</span>
+          <textarea name="base_desc" rows="3" required
+            placeholder="A portable tool for making marks on paper...&#10;（例）紙に印をつける携帯ツール …"></textarea>
+        </label>
+
+        <h2>Step B — Idea 1 (Control)<br>ステップB — アイデア1（Control）</h2>
+
+        <label class="block">
+          <span>Problem descriptors (3–5 short phrases)<br>問題点の記述（3〜5語句）</span>
+          <input name="descriptors" type="text" required
+            placeholder="heavy, slippery, dries out&#10;重い, 滑りやすい, 乾きやすい">
+        </label>
+
+        <label class="block">
+          <span>Optional keywords<br>任意のキーワード</span>
+          <input name="keywords" type="text" placeholder="magnetic, refill, eco&#10;マグネット, リフィル, エコ">
+        </label>
+
+        <label class="block">
+          <span>Reasoning (2–3 sentences)<br>組合理由（2〜3文）</span>
+          <textarea name="reason" rows="3" required
+            placeholder="Why this concept? Which issue does it solve and for whom?&#10;なぜこの構想か／誰のどの課題を解決するか。"></textarea>
+        </label>
+
+        <label class="block">
+          <span>Proposed concept (1–3 sentences)<br>提案コンセプト（1〜3文）</span>
+          <textarea name="concept" rows="3" required
+            placeholder="Describe your idea clearly.&#10;アイデアの要点を簡潔に書く。"></textarea>
+        </label>
+
+        <label class="block">
+          <span>Optional sketch (PNG/JPG)<br>任意：スケッチ（PNG/JPG）</span>
+          <input type="file" name="sketch" accept=".png,.jpg,.jpeg">
+        </label>
+
+        <div class="form-actions">
+          <button type="submit" class="btn">Submit Idea 1 &amp; Continue<br>送信して続行</button>
+        </div>
+      </form>
+
+      <section class="card">
+        <h3>After submission<br>送信後</h3>
+        <ol>
+          <li>The system will show candidate <em>Contrary traits</em> and <em>Additives</em>.<br>システムが <em>Contrary 特徴</em> と <em>Additive 候補</em> を表示します。</li>
+          <li>You will create <strong>Idea 2 (Assisted)</strong> next.<br>次に <strong>アイデア2（Assisted）</strong> を作成します。</li>
+        </ol>
+      </section>
+
+      <nav class="page-nav">
+        <a class="btn btn-secondary" href="{{ url_for('instructions2') }}">Back<br>戻る</a>
+        <a class="btn btn-secondary" href="{{ url_for('base2') }}">Save &amp; return later<br>保存して後で再開</a>
+      </nav>
+    </main>
+
+    <script>
+      let startTime, timerInterval;
+      function startTimer() {
+        startTime = Date.now();
+        localStorage.setItem('base1Start', String(startTime));
+        timerInterval = setInterval(updateTimer, 1000);
+      }
+      function updateTimer() {
+        const display = document.getElementById('timer-display');
+        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+        const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
+        const s = String(elapsed % 60).padStart(2, '0');
+        display.textContent = `⏱ ${m}:${s}`;
+      }
+      function stopTimer() {
+        if (!startTime) return;
+        const total = Math.floor((Date.now() - startTime) / 1000);
+        localStorage.setItem('base1TimeSpent', String(total));
+        clearInterval(timerInterval);
+      }
+      window.addEventListener('DOMContentLoaded', startTimer);
+      window.addEventListener('beforeunload', stopTimer);
+    </script>
+  </body>
+</html>

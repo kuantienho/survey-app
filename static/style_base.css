@@ -1,0 +1,150 @@
+/* ========= BASE PAGES ========= */
+body#page-base {
+  display: block;
+  background: var(--bg, #f8f9fa);
+  font-family: var(--font, "Inter", sans-serif);
+  color: #222;
+  padding: 24px 0 48px;
+}
+
+/* Header section */
+.page-header {
+  text-align: center;
+  margin: 32px 0 28px 0;
+}
+.page-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+.page-header p {
+  font-size: 18px;
+  color: var(--muted);
+  margin: 0 0 8px 0;
+}
+.page-header .timer {
+  display: inline-block;
+  font-size: 15px;
+  color: #555;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 10px;
+  margin-top: 8px;
+}
+
+/* Container for everything below header */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Card sections */
+.card {
+  background-color: #fff;
+  border: 1px solid var(--border, #ddd);
+  border-radius: var(--radius, 8px);
+  box-shadow: var(--shadow, 0 2px 6px rgba(0,0,0,0.05));
+  padding: 24px 28px;
+  margin-bottom: 24px;
+}
+.card h2, .card h3 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.card p, .card li {
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* Form structure */
+#form-base1, .form-base {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.block span {
+  font-weight: 600;
+  font-size: 16px;
+}
+.block input[type="text"],
+.block textarea,
+.block input[type="file"] {
+  font-size: 16px;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  padding: 8px 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.block textarea {
+  resize: vertical;
+}
+.block input[type="file"] {
+  padding: 6px;
+}
+
+/* Buttons */
+.btn, button.btn {
+  padding: 10px 20px;
+  background: var(--accent, #1f6f2a);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1;
+  transition: background 0.2s ease;
+}
+.btn:hover { background: var(--accent-hover, #278b34); }
+.btn-secondary {
+  background: #ddd;
+  color: #333;
+}
+.btn-secondary:hover {
+  background: #ccc;
+}
+
+/* Form actions (submit/back buttons) */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+/* Navigation footer */
+.page-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 32px;
+}
+.page-nav .btn {
+  min-width: 150px;
+}
+
+/* Ordered list styling (After submission section) */
+.card ol {
+  padding-left: 22px;
+  margin: 8px 0;
+}
+.card ol li {
+  margin-bottom: 6px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .card { padding: 18px; }
+  .page-header h1 { font-size: 22px; }
+  .btn, button.btn { font-size: 14px; }
+}

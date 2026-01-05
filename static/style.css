@@ -1,0 +1,224 @@
+/* ========= Base (safe, minimal) ========= */
+:root {
+  --bg: #f2f2f2;
+  --text: #222;
+  --muted: #444;
+  --border: #ddd;
+  --accent: #4CAF50;
+  --accent-hover: #45a049;
+  --radius: 12px;
+  --shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+/* Utility */
+.u-hidden { display: none !important; }
+
+/* ========= LOGIN PAGE ========= */
+body#page-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+#login-header {
+  text-align: center;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+#login-header__title {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+}
+#login-header__subtitle {
+  font-size: 16px;
+  color: var(--muted);
+  font-weight: normal;
+  margin: 0;
+}
+
+#login-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#login-box {
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  text-align: center;
+  width: 100%;
+  max-width: 360px;
+}
+
+#login-box__heading {
+  margin: 0 0 20px 0;
+  font-size: 20px;
+}
+
+#login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.login-form__input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+}
+
+.login-form__button {
+  padding: 10px;
+  background-color: var(--accent);
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.login-form__button:hover { background-color: var(--accent-hover); }
+
+#login-note {
+  font-size: 13px;
+  margin-top: 15px;
+  color: #333;
+}
+
+/* ========= INSTRUCTIONS PAGE ========= */
+body#page-instructions { display: block; }
+
+#instr-header {
+  text-align: center;
+  padding: 20px;
+  margin: 32px 0 24px 0;
+}
+#instr-header__title {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0 0 20px 0;
+}
+#instr-header__subtitle {
+  font-size: 24px;
+  color: var(--muted);
+  font-weight: normal;
+  margin: 0;
+}
+
+#instr-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 24px 40px;
+  text-align: left;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* --- Generic buttons (global) --- */
+.btn {
+  padding: 10px 20px;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+  white-space: nowrap;
+}
+.btn:hover { background: var(--accent-hover); }
+.btn:focus-visible {
+  outline: 2px solid #1f6f2a;
+  outline-offset: 2px;
+}
+
+/* --- Language switch + timer (specific) --- */
+/* Use higher specificity and place AFTER .btn so these rules win */
+body#page-instructions #instr-lang-switch {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+body#page-instructions #instr-lang-switch .btn {
+  display: inline-flex;         /* consistent height and centering */
+  justify-content: center;
+  align-items: center;
+  width: 110px;                 /* equal width */
+  padding: 8px 12px;            /* your preferred padding */
+  text-align: center;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+/* Optional: style for the timer text so it aligns nicely with buttons */
+body#page-instructions #instr-lang-switch .timer {
+  font-size: 14px;
+  color: var(--muted);
+  padding: 8px 6px;             /* visually matches button height */
+  line-height: 1;
+}
+
+/* Titles / text */
+.instr__title {
+  font-size: 24px;
+  margin: 20px 0 20px 0;
+}
+.instr__p {
+  font-size: 18px;
+  margin: 30px 0 30px 0;
+  line-height: 1.6;
+}
+.instr__img {
+  width: 100%;
+  max-width: 600px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  display: block;
+  margin: 24px auto 24px;
+}
+
+/* Actions row */
+.instr-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+/* Visual placeholder box */
+.instr__visual-placeholder {
+  text-align: center;
+  margin: 20px 0;
+  padding: 16px;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+}
+
+
+
+

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Base No.3 | Chair</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_base.css') }}">
+  </head>
+
+  <body id="page-base">
+    <header class="page-header">
+      <h1>Base No.3 — Chair<br>ベース No.3 — 椅子</h1>
+      <p>Control → Assisted Workflow (~15 min)<br>Control → Assisted の流れ（約15分）</p>
+      <span id="timer-display" class="timer">⏱ 00:00</span>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <h2>Base Object<br>ベース対象</h2>
+        <p>
+          <strong>Chair</strong> — office chair, stool, lounge chair, foldable, etc.; related accessories allowed.<br>
+          <strong>椅子：</strong> オフィスチェア・スツール・ラウンジチェア・折りたたみ等。必要ならクッション・脚カバー等の付属も可。
+        </p>
+      </section>
+
+      <form id="form-base3" class="card" method="POST" action="{{ url_for('base3') }}" enctype="multipart/form-data">
+        <input type="hidden" name="base_id" value="3">
+        <input type="hidden" name="base_name" value="Chair">
+        <input type="hidden" name="step" value="control">
+
+        <h2>Step A — Describe the Base<br>ステップA — Baseの記述</h2>
+        <label class="block">
+          <span>Your understanding / assumptions<br>あなたの理解・前提</span>
+          <textarea name="base_desc" rows="3" required
+            placeholder="A seating furniture for posture and comfort...&#10;（例）姿勢・快適性のための座具。"></textarea>
+        </label>
+
+        <h2>Step B — Idea 1 (Control)<br>ステップB — アイデア1（Control）</h2>
+
+        <label class="block">
+          <span>Problem descriptors (3–5 short phrases)<br>問題点の記述（3〜5語句）</span>
+          <input name="descriptors" type="text" required
+            placeholder="back pain, bulky, hard to adjust&#10;腰が痛い, かさばる, 調整が難しい">
+        </label>
+
+        <label class="block">
+          <span>Optional keywords<br>任意のキーワード</span>
+          <input name="keywords" type="text" placeholder="ergonomic, modular, foldable&#10;人間工学, モジュール, 折りたたみ">
+        </label>
+
+        <label class="block">
+          <span>Reasoning (2–3 sentences)<br>組合理由（2〜3文）</span>
+          <textarea name="reason" rows="3" required
+            placeholder="Why this concept? Who benefits?&#10;なぜこの構想か／誰にどんな利点があるか。"></textarea>
+        </label>
+
+        <label class="block">
+          <span>Proposed concept (1–3 sentences)<br>提案コンセプト（1〜3文）</span>
+          <textarea name="concept" rows="3" required
+            placeholder="Clearly state the core idea.&#10;コアとなる着想を明確に簡潔に。"></textarea>
+        </label>
+
+        <label class="block">
+          <span>Optional sketch (PNG/JPG)<br>任意：スケッチ（PNG/JPG）</span>
+          <input type="file" name="sketch" accept=".png,.jpg,.jpeg">
+        </label>
+
+        <div class="form-actions">
+          <button type="submit" class="btn">Submit Idea 1 &amp; Continue<br>送信して続行</button>
+        </div>
+      </form>
+
+      <section class="card">
+        <h3>After submission<br>送信後</h3>
+        <ol>
+          <li>The system will show candidate <em>Contrary traits</em> and <em>Additives</em>.<br>システムが <em>Contrary 特徴</em> と <em>Additive 候補</em> を表示します。</li>
+          <li>You will create <strong>Idea 2 (Assisted)</strong> next.<br>次に <strong>アイデア2（Assisted）</strong> を作成します。</li>
+        </ol>
+      </section>
+
+      <nav class="page-nav">
+        <a class="btn btn-secondary" href="{{ url_for('base2') }}">⟵ Back<br>戻る</a>
+        <a class="btn btn-secondary" href="{{ url_for('base4') }}">Save &amp; return later<br>保存して後で再開</a>
+      </nav>
+    </main>
+
+    <script>
+      let startTime, timerInterval;
+      function startTimer(){ startTime = Date.now(); localStorage.setItem('base3Start', String(startTime)); timerInterval=setInterval(updateTimer,1000); }
+      function updateTimer(){ const d=document.getElementById('timer-display'); const t=Math.floor((Date.now()-startTime)/1000); const m=String(Math.floor(t/60)).padStart(2,'0'); const s=String(t%60).padStart(2,'0'); d.textContent=`⏱ ${m}:${s}`; }
+      function stopTimer(){ if(!startTime)return; const total=Math.floor((Date.now()-startTime)/1000); localStorage.setItem('base3TimeSpent', String(total)); clearInterval(timerInterval); }
+      window.addEventListener('DOMContentLoaded', startTimer);
+      window.addEventListener('beforeunload', stopTimer);
+    </script>
+  </body>
+</html>

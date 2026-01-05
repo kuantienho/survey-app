@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Instructions | AI-Assisted Creative Combination Study</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body id="page-instructions"> 
+  <!-- Header (optional) -->
+  <header id="instr-header">
+    <h1 id="instr-header__title">AI-Assisted Ideation through Contrary and Base-Additive Combinational Framework</h1>
+    <h1 id="instr-header__subtitle">General Instructions: What is this Research about / 研究概要のご案内</h1>
+  </header>
+
+  <main id="instr-container">
+    <!-- Language switch -->
+    <div id="instr-lang-switch">
+      <a class="btn" href="javascript:void(0)" onclick="showLang('en')">English</a>
+      <a class="btn" href="javascript:void(0)" onclick="showLang('jp')">日本語</a>
+      <span id="timer-display" class="timer">⏱ 00:00</span>
+    </div>
+
+    <!-- ================= ENGLISH ================= -->
+    <section id="instr-content-en" lang="en">
+      <h1 class="instr__title">Welcome to the “AI-Assisted Ideation through Contrary and Base-Additive Combinational Framework” Research Experiment 1</h1>
+      <p class="instr__p">
+        Thank you for participating. You belong to <strong>Group A (Idea Generation)</strong>.
+        This study examines how people generate ideas by combining a <strong>Base</strong>
+        (the main object or concept) with an <strong>Additive</strong> (a supporting or
+        stimulating concept), and occasionally applying <strong>Contrary</strong> (opposite)
+        thinking to open up new directions. We use an <strong>AI-assisted workflow</strong>
+        that suggests potential Additives alongside a Base, to see whether this can broaden
+        ideation paths and support clarity and diversity in ideas.
+      </p>
+
+      <h2 class="instr__title">Background & Example</h2>
+      <p class="instr__p">
+        In creative design, we often start from an existing concept (<strong>Base</strong>) and
+        combine it with something new or unexpected (<strong>Additive</strong>). For example, a
+        Japanese inventor imagined a new kind of cutting tool not by referencing typical knives,
+        but by combining a <strong>razor (Base)</strong> with
+        <strong>stripes of chocolate bars (Additive)</strong> — a surprising pairing that led to a
+        unique shape and use.
+      </p>
+      <div class="instr__visual-placeholder">
+        <em>(Image placeholder: Razor + Chocolate Bar → Cutting Knife)</em>
+      </div>
+      <p class="instr__p">
+        This story illustrates that—even though everyone knows what a chocolate bar is—we may not
+        recall it when designing a new tool. Such “potential but hard-to-recall Additives” can be
+        crucial creative triggers. To support this, our study introduces an
+        <strong>AI-assisted Additive suggestion workflow</strong> that presents candidate Additives
+        alongside each Base.
+      </p>
+
+      <h2 class="instr__title">Your Role (Group A)</h2>
+      <p class="instr__p">
+        <p class="instr__p">
+          As a member of <strong>Group A (Idea Generation)</strong>, you will complete several independent
+          idea-generation tasks. Each task begins with a presented <strong>Base</strong>, and you will
+          create <strong>one idea</strong> by following the on-screen instructions.
+          Instructions may differ between tasks, but no prior knowledge or special preparation is required.
+          The detailed procedure for Experiment 1 appears on the next page.
+        </p>
+    
+      </p>
+
+      <div class="instr-actions">
+        <a href="{{ url_for('instructions2') }}" class="btn">
+          I understand. Proceed to experiment details
+        </a>
+      </div>
+    </section>
+
+    <!-- ================= JAPANESE ================= -->
+    <section id="instr-content-jp" lang="ja" class="u-hidden">
+      <h1 class="instr__title">「AIを活用した発想支援：対立とベース＋アディティブ結合モデルによるデザインフレームワーク」研究実験（一）サイトへようこそ</h1>
+      <p class="instr__p">
+        <p class="instr__p">
+          本研究
+          <strong>「AIを活用した発想支援：対立とベース＋アディティブ結合モデルによるデザインフレームワーク」</strong>
+          にご参加いただきありがとうございます。
+          本研究は、人が日常的で身近な概念をどのように組み合わせ、新しいアイデアを生み出すのかを調査するものです。
+          あなたは <strong>グループA（アイデア創出）</strong> の参加者として、短い発想課題に取り組みます。
+        </p>
+
+      </p>
+
+      <h2 class="instr__title">背景と例</h2>
+      <p class="instr__p">
+        本研究における <strong>Base</strong> とは、アイデア発想の出発点となる
+        日常的で分かりやすい概念のことです。
+        <strong>Additive</strong> は、Base に付け加える概念であり、
+        機能、材料、環境、使用シーン、あるいは対立的な性質など、さまざまな形をとります。
+      </p>
+      <div class="instr__visual-placeholder">
+        <em>（画像スペース：カミソリ＋チョコレートバー → カッティングナイフ）</em>
+      </div>
+      <p class="instr__p">
+        先行研究では、人は既に知っている概念であっても、その場で思い出せず、
+        発想の幅が狭まってしまうことが示されています。
+        本研究では、AI が生成する概念的ヒント（Additive や対立的視点）が、
+        発想の多様性や方向性にどのような影響を与えるかを検証します。
+      </p>
+
+      <h2 class="instr__title">あなたのタスク（グループA）</h2>
+      <p class="instr__p">
+        グループAの参加者として、複数の独立したアイデア生成タスクに取り組んでいただきます。
+        各タスクでは Base が提示され、画面の指示に従って <strong>1つのアイデア</strong> を記述してください。
+        特別な準備や専門知識は不要です。次のページでは、実験1の具体的な流れを説明します。
+      </p>
+
+      <div class="instr-actions">
+        <a href="{{ url_for('instructions2') }}" class="btn">
+          理解しました。実験の詳細へ進む
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Language toggle (uses .u-hidden) -->
+  <script>
+  // ---------- Language Toggle ----------
+  function showLang(lang) {
+    const en = document.getElementById('instr-content-en');
+    const jp = document.getElementById('instr-content-jp');
+    const showEn = (lang === 'en');
+    en.classList.toggle('u-hidden', !showEn);
+    jp.classList.toggle('u-hidden', showEn);
+    localStorage.setItem('lang', lang);
+  }
+
+  // ---------- Timer Logic ----------
+  let startTime, timerInterval;
+
+  function startTimer() {
+    startTime = Date.now();
+    localStorage.setItem('pageStartTime', startTime.toString());
+    timerInterval = setInterval(updateTimerDisplay, 1000);
+  }
+
+  function updateTimerDisplay() {
+    const display = document.getElementById('timer-display');
+    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+    const minutes = String(Math.floor(elapsed / 60)).padStart(2, '0');
+    const seconds = String(elapsed % 60).padStart(2, '0');
+    display.textContent = `⏱ ${minutes}:${seconds}`;
+  }
+
+  function stopTimer() {
+    if (!startTime) return;
+    const total = Math.floor((Date.now() - startTime) / 1000);
+    localStorage.setItem('page1TimeSpent', total.toString());
+    clearInterval(timerInterval);
+  }
+
+  // ---------- Handle Page Load / Unload ----------
+  window.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('lang') || 'en';
+    showLang(savedLang);
+    startTimer();
+  });
+
+  window.addEventListener('beforeunload', () => {
+    stopTimer();
+  });
+</script>
+
+</body>
+</html>
