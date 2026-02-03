@@ -1,16 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Conditional Survey Form</title>
+  <meta charset="UTF-8" />
+  <title>Personal Information / 個人情報</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Hiragino Kaku Gothic ProN",
+        "Hiragino Sans",
+        "Noto Sans JP",
+        "Yu Gothic",
+        "Meiryo",
+        Arial,
+        sans-serif;
       background: #f5f5f5;
+      margin: 0;
+      padding: 0;
     }
 
     .container {
-      max-width: 500px;
+      max-width: 560px;
       margin: 40px auto;
       background: #fff;
       padding: 20px 25px;
@@ -20,7 +32,15 @@
 
     h2 {
       text-align: center;
-      margin-bottom: 20px;
+      margin: 0 0 10px;
+    }
+
+    .sub {
+      text-align: center;
+      font-size: 13px;
+      color: #555;
+      margin: 0 0 18px;
+      line-height: 1.6;
     }
 
     .form-group {
@@ -28,9 +48,18 @@
     }
 
     label {
-      display: block;      /* makes it a block element */
-      margin-bottom: 5px;
-      font-weight: bold;
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 700;
+      line-height: 1.6;
+    }
+
+    /* bilingual inline text */
+    .bi {
+      font-weight: 600;
+      font-size: 0.95em; /* avoid tiny JP */
+      color: #333;       /* avoid gray-out */
+      margin-left: 6px;
     }
 
     input[type="text"],
@@ -42,10 +71,19 @@
       box-sizing: border-box;
       border-radius: 4px;
       border: 1px solid #ccc;
+      font-size: 14px;
+      line-height: 1.6;
+      background: #fff;
     }
 
-    .hidden {
-      display: none;
+    textarea { resize: vertical; }
+
+    .hidden { display: none; }
+
+    h3 {
+      margin: 12px 0 8px;
+      font-size: 16px;
+      line-height: 1.4;
     }
 
     button {
@@ -53,100 +91,109 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      background: #007bff;
+      background: #26843f;
       color: #fff;
       font-size: 14px;
     }
 
-    button:hover {
-      opacity: 0.9;
-    }
+    button:hover { opacity: 0.92; }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h2>Basic Information</h2>
+  <h2>Basic Information <span class="bi">／ 基本情報</span></h2>
+  <p class="sub">
+    Please fill in the following fields. <span class="bi">以下の項目を入力してください。</span>
+  </p>
 
+  <!-- Add method/action as needed in your Flask app -->
   <form>
 
     <!-- Basic Info -->
     <div class="form-group">
-      <label for="name">Name</label>
-      <input id="name" name="name" type="text" placeholder="Your name">
+      <label for="name">Name <span class="bi">／ 氏名</span></label>
+      <input id="name" name="name" type="text" placeholder="Your name / 氏名">
     </div>
 
     <div class="form-group">
-      <label for="gender">Gender</label>
+      <label for="gender">Gender <span class="bi">／ 性別</span></label>
       <select id="gender" name="gender">
-        <option value="">-- Select gender --</option>
-        <option value="female">Female</option>
-        <option value="male">Male</option>
-        <option value="nonbinary">Non-binary</option>
-        <option value="prefer_not">Prefer not to say</option>
+        <option value="">-- Select gender / 性別を選択 --</option>
+        <option value="female">Female / 女性</option>
+        <option value="male">Male / 男性</option>
+        <option value="nonbinary">Non-binary / ノンバイナリー</option>
+        <option value="prefer_not">Prefer not to say / 回答しない</option>
       </select>
     </div>
 
     <div class="form-group">
-      <label for="age">Age</label>
-      <input id="age" name="age" type="number" min="0" max="120">
+      <label for="age">Age <span class="bi">／ 年齢</span></label>
+      <input id="age" name="age" type="number" min="0" max="120" placeholder="e.g., 20 / 例：20">
     </div>
 
     <!-- Occupation choice -->
     <div class="form-group">
-      <label for="occupation">Occupation</label>
+      <label for="occupation">Occupation <span class="bi">／ 職業</span></label>
       <select id="occupation" name="occupation">
-        <option value="">-- Select occupation --</option>
-        <option value="student">Student</option>
-        <option value="salaryman">Salaryman / Office worker</option>
-        <option value="other">Other</option>
+        <option value="">-- Select occupation / 職業を選択 --</option>
+        <option value="student">Student / 学生</option>
+        <option value="salaryman">Salaryman / Office worker / 会社員・事務職</option>
+        <option value="other">Other / その他</option>
       </select>
     </div>
 
     <!-- Student-only section -->
     <div id="student-fields" class="hidden">
-      <h3>Student Details</h3>
+      <h3>Student Details <span class="bi">／ 学生情報</span></h3>
+
       <div class="form-group">
-        <label for="school">School / University</label>
-        <input id="school" name="school" type="text">
+        <label for="school">School / University <span class="bi">／ 学校名・大学名</span></label>
+        <input id="school" name="school" type="text" placeholder="e.g., XX University / 例：○○大学">
       </div>
+
       <div class="form-group">
-        <label for="grade">Grade / Year</label>
-        <input id="grade" name="grade" type="text" placeholder="e.g. 2nd year, Grade 10">
+        <label for="grade">Grade / Year <span class="bi">／ 学年</span></label>
+        <input id="grade" name="grade" type="text" placeholder="e.g., 2nd year / 例：2年">
       </div>
+
       <div class="form-group">
-        <label for="department">Department / Major</label>
-        <input id="department" name="department" type="text">
+        <label for="department">Department / Major <span class="bi">／ 学部・専攻</span></label>
+        <input id="department" name="department" type="text" placeholder="e.g., Engineering / 例：工学部">
       </div>
     </div>
 
     <!-- Salaryman-only section -->
     <div id="salaryman-fields" class="hidden">
-      <h3>Work Details</h3>
+      <h3>Work Details <span class="bi">／ 勤務情報</span></h3>
+
       <div class="form-group">
-        <label for="company">Company Name</label>
-        <input id="company" name="company" type="text">
+        <label for="company">Company Name <span class="bi">／ 会社名</span></label>
+        <input id="company" name="company" type="text" placeholder="e.g., ABC Inc. / 例：株式会社ABC">
       </div>
+
       <div class="form-group">
-        <label for="work-type">Work Type</label>
-        <input id="work-type" name="work_type" type="text" placeholder="e.g. Sales, Engineer, Marketing">
+        <label for="work-type">Work Type <span class="bi">／ 職種</span></label>
+        <input id="work-type" name="work_type" type="text" placeholder="e.g., Sales / Engineer / 例：営業、エンジニア">
       </div>
+
       <div class="form-group">
-        <label for="years">Years in Current Job</label>
-        <input id="years" name="years" type="number" min="0">
+        <label for="years">Years in Current Job <span class="bi">／ 現職の年数</span></label>
+        <input id="years" name="years" type="number" min="0" placeholder="e.g., 3 / 例：3">
       </div>
     </div>
 
     <!-- Other occupation section -->
     <div id="other-fields" class="hidden">
-      <h3>Other Occupation</h3>
+      <h3>Other Occupation <span class="bi">／ その他の職業</span></h3>
+
       <div class="form-group">
-        <label for="occupation-desc">Please describe your occupation</label>
-        <textarea id="occupation-desc" name="occupation_desc" rows="3"></textarea>
+        <label for="occupation-desc">Please describe your occupation <span class="bi">／ 職業を記入してください</span></label>
+        <textarea id="occupation-desc" name="occupation_desc" rows="3" placeholder="Write here / こちらに記入"></textarea>
       </div>
     </div>
 
-    <button type="submit">Submit</button>
+    <button type="submit">Submit / 送信</button>
 
   </form>
 </div>
@@ -160,12 +207,10 @@
   function updateOccupationFields() {
     const value = occupationSelect.value;
 
-    // Hide all first
     studentFields.classList.add('hidden');
     salarymanFields.classList.add('hidden');
     otherFields.classList.add('hidden');
 
-    // Show only matched section
     if (value === 'student') {
       studentFields.classList.remove('hidden');
     } else if (value === 'salaryman') {

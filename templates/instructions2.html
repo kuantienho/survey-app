@@ -20,96 +20,129 @@
 
     <!-- ================= ENGLISH ================= -->
     <section id="instr-content-en" lang="en">
-      <h1 class="instr__title">Selected Bases</h1>
+      <h1 class="instr__title">Experiment Instructions</h1>
+
+      <h2 class="instr__title">Overview</h2>
       <p class="instr__p">
-        You will work on four Base topics:
-        <strong>Umbrella</strong>, <strong>Pen</strong>, <strong>Chair</strong>, and <strong>Power Supply</strong>.
-        Each Base may include common variants (e.g., umbrella = foldable umbrella / parasol / vinyl umbrella;
-        pen = pencil / ballpoint / fountain pen). Relevant accessories (e.g., umbrella case, charging stand)
-        may be considered when they help the concept.
+        In this study, you will complete several short creativity tasks. Each task focuses on a different everyday object,
+        and your role is to generate <strong>one idea</strong> for each task. All tasks are independent, and there are
+        <strong>no right or wrong answers</strong>. You do not need any prior knowledge or preparation.
       </p>
 
-      <h2 class="instr__title">Per-Base Flow (≈ 15 minutes)</h2>
+      <h2 class="instr__title">What You Will Do</h2>
       <ol class="instr__p">
-        <li><strong>Describe the Base</strong> in <em>1–2 sentences</em> (your understanding/assumptions).</li>
-        <li><strong>Idea 1 — Control:</strong> Create your first idea <em>without</em> system suggestions → <strong>Submit</strong>.</li>
-        <li><strong>System suggestions:</strong> The system shows candidate <em>Additives</em>.</li>
-        <li><strong>Idea 2 — Assisted:</strong> Combine the Base with <em>one</em> suggested Additive
-            (apply <em>Contrary</em> if prompted) → <strong>Submit</strong>.</li>
+        <li>
+          You will be shown a <strong>target object</strong>. This object is the focus of the task.
+        </li>
+        <li>
+          You will receive <strong>short instructions</strong> for that specific task. These instructions may ask you to think freely,
+          follow a constraint, or use a particular perspective.
+        </li>
+        <li>
+          Based on the instructions, you will write <strong>one idea</strong> related to the object. Your idea should be original,
+          simple, and easy to understand. The system does not expect highly technical or highly detailed designs.
+        </li>
+        <li>
+          Instructions may differ between tasks. Some tasks may ask you to think without any hints, while others may show you
+          additional information. Just follow what appears on the screen for each task.
+        </li>
+        <li>
+          After writing your idea, press <strong>“Submit”</strong> to continue. Submitting your response will automatically move you to the next task.
+        </li>
       </ol>
-      <p class="instr__p"><strong>Time limit:</strong> ~<em>15 minutes per Base</em> (Base description + two ideas).</p>
 
-      <h2 class="instr__title">Overall Schedule</h2>
-      <ol class="instr__p">
-        <li><strong>Base 1: Umbrella</strong> — Control → Assisted (~15 min)</li>
-        <li><strong>Base 2: Pen</strong> — Control → Assisted (~15 min)</li>
-        <li><strong>Short break</strong> (3–5 min)</li>
-        <li><strong>Base 3: Chair</strong> — Control → Assisted (~15 min)</li>
-        <li><strong>Base 4: Power Supply</strong> — Control → Assisted (~15 min)</li>
-      </ol>
-      <p class="instr__p">
-        <strong>Total output:</strong> 4 Bases × 2 ideas = <strong>8 ideas</strong> (plus 4 short Base descriptions).
-      </p>
-
-      <h2 class="instr__title">Writing Guidance</h2>
+      <h2 class="instr__title">How to Write Your Idea</h2>
       <ul class="instr__p">
-        <li>Use <strong>1–3 sentences</strong> per idea with a clear concept or use scenario.</li>
-        <li>If stuck, try an opposite/unconventional angle.</li>
-        <li>Do not include personal or identifying information.</li>
-        <li>Each <strong>Submit</strong> saves your work and advances to the next step.</li>
+        <li>Keep your idea short: <strong>1–3 sentences</strong> is enough.</li>
+        <li>Describe a feature, improvement, use scenario, or concept related to the object.</li>
+        <li>You can think in any direction—practical, creative, unusual, or imaginative.</li>
+        <li>
+          If you find yourself stuck, try thinking about the object from a different point of view, reinterpret what it could do,
+          or imagine a non-traditional way it might be used.
+        </li>
+        <li>Do not include any personal or identifying information.</li>
+      </ul>
+
+      <h2 class="instr__title">Timing</h2>
+      <p class="instr__p">
+        Each task usually takes only <strong>about 10 minutes</strong>. Work at a comfortable, steady pace.
+        The system will guide you through all tasks until the study is finished.
+      </p>
+
+      <h2 class="instr__title">Important Notes</h2>
+      <ul class="instr__p">
+        <li>There is no need to revise or perfect your writing.</li>
+        <li>Your first idea is often the best—write it clearly and move on.</li>
+        <li>All responses will be used for research purposes only.</li>
       </ul>
 
       <div class="instr-actions">
-        <!-- Start the survey; change to url_for('survey_umbrella') if you want to jump straight to Base 1 -->
         <a href="{{ url_for('instructions') }}" class="btn">Go Back to Introduction</a>
         <a href="{{ url_for('base1') }}" class="btn">I understand. Start the survey</a>
       </div>
     </section>
 
+
     <!-- ================= JAPANESE ================= -->
     <section id="instr-content-jp" lang="ja" class="u-hidden">
-      <h1 class="instr__title">対象となるBase</h1>
+      <h1 class="instr__title">実験概要</h1>
       <p class="instr__p">
-        取り組むBaseは次の4つです：<strong>傘</strong>、<strong>ペン</strong>、<strong>椅子</strong>、<strong>電源</strong>。
-        それぞれ一般的なバリエーション（例：傘＝折りたたみ傘／日傘／ビニール傘、ペン＝鉛筆／ボールペン／万年筆）を含みます。
-        コンセプトの理解に役立つ場合、関連アクセサリ（例：傘ケース、充電スタンド）も検討可能です。
+        この研究では、いくつかの短い発想タスクに取り組んでいただきます。
+        各タスクでは、画面に表示される<strong>ある対象物</strong>について、
+        <strong>1つのアイデア</strong>を考えて記述していただきます。
+      </p>
+      <p class="instr__p">
+        タスクに正解・不正解はありません。
+        特別な準備や専門的な知識は必要なく、思いついた内容を自由に書いていただければ十分です。
       </p>
 
-      <h2 class="instr__title">各Baseの手順（約15分）</h2>
+      <h2 class="instr__title">タスクの進め方</h2>
       <ol class="instr__p">
-        <li><strong>Baseの記述：</strong> 1〜2文で理解・前提を書いてください。</li>
-        <li><strong>アイデア1（Control）：</strong> システム提案を見ずに作成 → <strong>送信</strong>。</li>
-        <li><strong>システム提案：</strong> 候補<strong>Additive</strong>が表示されます。</li>
-        <li><strong>アイデア2（Assisted）：</strong> 提示Additiveの<strong>いずれか1つ</strong>とBaseを組み合わせ
-            （指示がある場合はContrary（反対発想）も適用）→ <strong>送信</strong>。</li>
-      </ol>
-      <p class="instr__p"><strong>時間制限：</strong> 各Baseあたり約15分（Base記述＋2アイデア）。</p>
-
-      <h2 class="instr__title">全体の流れ</h2>
-      <ol class="instr__p">
-        <li><strong>Base 1：傘</strong> — Control → Assisted（約15分）</li>
-        <li><strong>Base 2：ペン</strong> — Control → Assisted（約15分）</li>
-        <li><strong>短い休憩</strong>（3〜5分）</li>
-        <li><strong>Base 3：椅子</strong> — Control → Assisted（約15分）</li>
-        <li><strong>Base 4：電源</strong> — Control → Assisted（約15分）</li>
+        <li>画面に、今回のタスクで考える<strong>対象物</strong>が表示されます。</li>
+        <li>そのタスク専用の<strong>簡単な指示</strong>が表示されます。</li>
+        <li>指示に従って、対象物に関するアイデアを<strong>1つ</strong>記述してください。</li>
+        <li>書き終えたら<strong>「送信」</strong>ボタンを押して次へ進みます。</li>
       </ol>
       <p class="instr__p">
-        <strong>合計：</strong> 4つのBase × 2アイデア ＝ <strong>8アイデア</strong>（＋Base記述4件）。
+        タスクによって、提示される情報や指示の内容が異なる場合があります。
+        画面に表示される内容に従って進めてください。
       </p>
 
-      <h2 class="instr__title">記述のヒント</h2>
+      <h2 class="instr__title">アイデアの書き方</h2>
       <ul class="instr__p">
-        <li>各アイデアは<strong>1〜3文</strong>で、概念や利用シーンを簡潔に書いてください。</li>
-        <li>行き詰まった場合は、逆・非常識といった視点も検討してください。</li>
-        <li>個人情報や特定可能な情報は記入しないでください。</li>
-        <li><strong>送信</strong>のたびに保存され、次のステップへ進みます。</li>
+        <li>1〜3文程度の短い文章で十分です。</li>
+        <li>
+          対象物に関する<strong>特徴・工夫・利用場面・改善案・発想したコンセプト</strong>などを
+          簡潔に書いてください。
+        </li>
+        <li>現実的なアイデアでも、少し変わった視点や想像的な内容でも構いません。</li>
+        <li>
+          行き詰まった場合は、
+          対象物の役割を別の角度から考える、
+          一般的とは異なる使い方を想像する、
+          などを試してみてください。
+        </li>
       </ul>
 
-      <div class="instr-actions">
-        <a href="{{ url_for('instructions') }}" class="btn">前のページに戻る</a>
-        <a href="{{ url_for('base1') }}" class="btn">アンケートを開始</a>
-      </div>
+      <h2 class="instr__title">所要時間について</h2>
+      <p class="instr__p">
+        各タスクは数分程度で終えることができます。
+        急ぐ必要はありませんので、画面の指示に沿って落ち着いて進めてください。
+        すべてのタスクが完了すると実験は終了となります。
+      </p>
+
+      <h2 class="instr__title">注意事項</h2>
+      <ul class="instr__p">
+        <li>文章を何度も練り直す必要はありません。</li>
+        <li>思いついたアイデアを簡潔にまとめ、そのまま送信してください。</li>
+        <li>個人情報や、個人が特定可能な内容は記入しないでください。</li>
+        <li>記入いただいた内容は研究目的のみに使用されます。</li>
+      </ul>
     </section>
+      <div class="instr-actions">
+        <a href="{{ url_for('instructions') }}" class="btn">説明に戻る</a>
+        <a href="{{ url_for('base1') }}" class="btn">理解しました。開始するy</a>
+      </div>
   </main>
 
   <script>

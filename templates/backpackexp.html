@@ -3,9 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Base No.1 | Pen</title>
+    <title>Base No.1 | バックパック（画面例）</title>
 
-    <!-- New version: inline style (same look & feel as your example) -->
     <style>
       :root{
         --bg:#f5f7fb;
@@ -76,10 +75,6 @@
         margin:0 0 10px;
         font-size:16px;
       }
-      h3{
-        margin:0 0 10px;
-        font-size:15px;
-      }
       .block{ display:block; margin-top:12px; }
       .block span{
         display:block;
@@ -96,13 +91,6 @@
         padding:10px 12px;
       }
       textarea{ resize:vertical; min-height:88px; }
-      input[type="file"]{
-        width:100%;
-        border-radius:10px;
-        border:1px dashed #93c5fd;
-        background:#f8fbff;
-        padding:10px 12px;
-      }
       .btn{
         border:1px solid transparent;
         border-radius:10px;
@@ -111,28 +99,6 @@
         color:#fff;
         font-weight:700;
         cursor:pointer;
-      }
-      .btn-secondary{
-        background:#fff;
-        color:var(--text);
-        border:1px solid var(--line);
-        box-shadow:var(--shadow);
-        text-decoration:none;
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-      }
-      .form-actions{
-        margin-top:14px;
-        display:flex;
-        justify-content:flex-end;
-        gap:10px;
-      }
-      .page-nav{
-        margin-top:14px;
-        display:flex;
-        gap:10px;
-        flex-wrap:wrap;
       }
       .grid{
         display:grid;
@@ -162,11 +128,11 @@
     </style>
   </head>
 
-  <body id="page-base">
+  <body>
     <header class="page-header">
       <div>
-        <h1>Base No.1 — Pen<br>ベース No.1 — ペン</h1>
-        <p>Control → Assisted の流れ（約15分）</p>
+        <h1>Base No.1 — Backpack<br>ベース No.1 — バックパック（画面例）</h1>
+        <p>Assisted（副加要素あり）</p>
       </div>
       <span id="timer-display" class="timer">⏱ 00:00</span>
     </header>
@@ -175,110 +141,62 @@
       <section class="card">
         <h2>ベース対象</h2>
         <p>
-          <strong>ペン：</strong>
-          鉛筆・ボールペン・万年筆・マーカーなどの一般的な筆記具。
-          必要に応じて、クリップ・キャップ・ホルダーなど周辺アクセサリも含めて構いません。
+          <strong>バックパック：</strong>
+          通学・通勤・旅行等で用いられる一般的な背負いかばん。
+          必要に応じてポケット、PCスリーブ、レインカバー等の付属要素を含めて構いません。
         </p>
       </section>
 
       <div class="grid">
-        <form id="form-base1" class="card" method="POST" action="{{ url_for('base1') }}" enctype="multipart/form-data">
-          <input type="hidden" name="base_id" value="1">
-          <input type="hidden" name="base_name" value="Pen">
-          <input type="hidden" name="step" value="control">
-
+        <form class="card">
           <h2>ステップA — ベースの記述</h2>
           <label class="block">
             <span>あなたの理解・前提</span>
-            <textarea name="base_desc" rows="3" required
-              placeholder="（例）紙に印をつける携帯ツール …"></textarea>
+            <textarea rows="3"
+              placeholder="（例）日常的に荷物を持ち運ぶためのかばん。"></textarea>
           </label>
 
           <h2 style="margin-top:14px;">ステップB — アイデア1（Control）</h2>
 
           <label class="block">
             <span>問題点の記述（3〜5語句）</span>
-            <input name="descriptors" type="text" required
-              placeholder="重い, 滑りやすい, 乾きやすい">
-          </label>
-
-          <label class="block">
-            <span>任意のキーワード</span>
-            <input name="keywords" type="text" placeholder="マグネット, リフィル, エコ">
+            <input type="text" placeholder="重い, 肩が痛い, 取り出しにくい" />
           </label>
 
           <label class="block">
             <span>組合理由（2〜3文）</span>
-            <textarea name="reason" rows="3" required
+            <textarea rows="3"
               placeholder="なぜこの構想か／誰のどの課題を解決するか。"></textarea>
           </label>
 
           <label class="block">
             <span>提案コンセプト（1〜3文）</span>
-            <textarea name="concept" rows="3" required
+            <textarea rows="3"
               placeholder="アイデアの要点を簡潔に書く。"></textarea>
           </label>
 
-          <div class="form-actions">
-            <button type="submit" class="btn">送信して続行</button>
-          </div>
+          <button type="button" class="btn">送信して続行</button>
         </form>
 
-        <!-- New version: right-side "example" panel (you can wire these dynamically later) -->
         <aside class="card subcard">
           <h2>副加要素（表示例）</h2>
           <div class="chips">
-            <div class="chip">滑り止め</div>
-            <div class="chip">軽量化</div>
-            <div class="chip">片手操作</div>
-          </div>
-
-          <div style="margin-top:14px;">
-            <h3>送信後</h3>
-            <ol style="margin:0; padding-left:18px; color:var(--muted); font-size:13px; line-height:1.6;">
-              <li>システムが <em>Contrary 特徴</em> と <em>Additive 候補</em> を表示します。</li>
-              <li>次に <strong>アイデア2（Assisted）</strong> を作成します。</li>
-            </ol>
+            <div class="chip">モジュール化</div>
+            <div class="chip">体圧分散</div>
+            <div class="chip">片手アクセス</div>
           </div>
         </aside>
       </div>
-
-      <nav class="page-nav">
-        <a class="btn btn-secondary" href="{{ url_for('instructions2') }}">戻る</a>
-        <a class="btn btn-secondary" href="{{ url_for('base2') }}">保存して後で再開</a>
-      </nav>
     </main>
 
-    <!-- Timer: keeps your original localStorage behavior -->
     <script>
-      let startTime, timerInterval;
-
-      function startTimer() {
-        // Resume if a start time exists (optional)
-        const saved = localStorage.getItem('base1Start');
-        startTime = saved ? Number(saved) : Date.now();
-        localStorage.setItem('base1Start', String(startTime));
-        timerInterval = setInterval(updateTimer, 1000);
-        updateTimer();
-      }
-
-      function updateTimer() {
-        const display = document.getElementById('timer-display');
-        const elapsed = Math.floor((Date.now() - startTime) / 1000);
-        const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
-        const s = String(elapsed % 60).padStart(2, '0');
-        display.textContent = `⏱ ${m}:${s}`;
-      }
-
-      function stopTimer() {
-        if (!startTime) return;
-        const total = Math.floor((Date.now() - startTime) / 1000);
-        localStorage.setItem('base1TimeSpent', String(total));
-        clearInterval(timerInterval);
-      }
-
-      window.addEventListener('DOMContentLoaded', startTimer);
-      window.addEventListener('beforeunload', stopTimer);
+      const start = Date.now();
+      setInterval(()=>{
+        const sec = Math.floor((Date.now()-start)/1000);
+        const m = String(Math.floor(sec/60)).padStart(2,"0");
+        const s = String(sec%60).padStart(2,"0");
+        document.getElementById("timer-display").textContent = `⏱ ${m}:${s}`;
+      },1000);
     </script>
   </body>
 </html>

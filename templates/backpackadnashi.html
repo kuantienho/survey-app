@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Base No.1 | バックパック（Control条件・画面例）</title>
+
+    <style>
+      :root{
+        --bg:#f5f7fb;
+        --card:#ffffff;
+        --line:#d8e0ee;
+        --text:#1f2a44;
+        --muted:#5f6f8a;
+        --accent:#3b82f6;
+        --shadow:0 8px 20px rgba(30,50,90,.12);
+        --r:14px;
+      }
+      *{ box-sizing:border-box; }
+      body{
+        margin:0;
+        font-family: system-ui, -apple-system, "Segoe UI",
+          "Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",sans-serif;
+        background: linear-gradient(180deg, #f9fbff, var(--bg));
+        color:var(--text);
+      }
+      .page-header{
+        position:sticky;
+        top:0;
+        z-index:10;
+        display:flex;
+        justify-content:space-between;
+        gap:12px;
+        padding:16px 18px;
+        border-bottom:1px solid var(--line);
+        background:#ffffffcc;
+        backdrop-filter: blur(6px);
+      }
+      .page-header h1{
+        margin:0;
+        font-size:18px;
+        line-height:1.3;
+      }
+      .timer{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        min-width:88px;
+        padding:8px 10px;
+        border:1px solid var(--line);
+        border-radius:999px;
+        background:#fff;
+        box-shadow:var(--shadow);
+        font-variant-numeric: tabular-nums;
+      }
+      .container{
+        max-width:1000px;
+        margin:0 auto;
+        padding:18px;
+      }
+      .card{
+        background:var(--card);
+        border:1px solid var(--line);
+        border-radius:var(--r);
+        padding:16px;
+        box-shadow:var(--shadow);
+      }
+      .card + .card{ margin-top:14px; }
+      h2{
+        margin:0 0 10px;
+        font-size:16px;
+      }
+      .notice{
+        background:#fef3c7;
+        border:1px solid #fde68a;
+        border-radius:12px;
+        padding:12px 14px;
+        font-size:14px;
+        margin-bottom:14px;
+      }
+      .notice strong{
+        display:block;
+        margin-bottom:6px;
+      }
+      .block{ display:block; margin-top:12px; }
+      .block span{
+        display:block;
+        color:var(--muted);
+        font-size:13px;
+        margin-bottom:6px;
+      }
+      input[type="text"], textarea{
+        width:100%;
+        border-radius:10px;
+        border:1px solid var(--line);
+        background:#fbfcff;
+        color:var(--text);
+        padding:10px 12px;
+      }
+      textarea{ resize:vertical; min-height:88px; }
+      .btn{
+        border:1px solid transparent;
+        border-radius:10px;
+        padding:10px 14px;
+        background:linear-gradient(180deg, #60a5fa, #3b82f6);
+        color:#fff;
+        font-weight:700;
+        cursor:pointer;
+      }
+      @media (max-width:900px){
+        .page-header{ position:static; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="page-header">
+      <div>
+        <h1>Base No.1 — Backpack<br>ベース No.1 — バックパック（Control条件）</h1>
+      </div>
+      <span id="timer-display" class="timer">⏱ 00:00</span>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <h2>ベース対象</h2>
+        <p>
+          <strong>バックパック：</strong>
+          通学・通勤・旅行等で用いられる一般的な背負いかばん。
+          必要に応じてポケット、PCスリーブ、レインカバー等の付属要素を含めて構いません。
+        </p>
+      </section>
+
+      <section class="card notice">
+        <strong>本課題について</strong>
+        <p>
+          本ケースでは、副加要素や追加的なヒントは提示されません。<br>
+          ご自身のこれまでの経験や知識、記憶に基づいて、自由にアイデアを発想してください。
+        </p>
+        <p>
+          このベース対象についての発想は <strong>1回のみ</strong> 行っていただきます。
+        </p>
+      </section>
+
+      <form class="card">
+        <h2>アイデア創出</h2>
+
+        <label class="block">
+          <span>問題点の記述（3〜5語句）</span>
+          <input type="text" placeholder="重い, 肩が痛い, 取り出しにくい" />
+        </label>
+
+        <label class="block">
+          <span>組合理由（2〜3文）</span>
+          <textarea rows="3"
+            placeholder="なぜこの構想か／誰のどの課題を解決するか。"></textarea>
+        </label>
+
+        <label class="block">
+          <span>提案コンセプト（1〜3文）</span>
+          <textarea rows="3"
+            placeholder="アイデアの要点を簡潔に書く。"></textarea>
+        </label>
+
+        <button type="button" class="btn">送信</button>
+      </form>
+    </main>
+
+    <script>
+      const start = Date.now();
+      setInterval(()=>{
+        const sec = Math.floor((Date.now()-start)/1000);
+        const m = String(Math.floor(sec/60)).padStart(2,"0");
+        const s = String(sec%60).padStart(2,"0");
+        document.getElementById("timer-display").textContent = `⏱ ${m}:${s}`;
+      },1000);
+    </script>
+  </body>
+</html>
