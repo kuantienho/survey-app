@@ -5,256 +5,195 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Base No.1 | Pen</title>
 
-    <!-- New version: inline style (same look & feel as your example) -->
-    <style>
-      :root{
-        --bg:#f5f7fb;
-        --card:#ffffff;
-        --line:#d8e0ee;
-        --text:#1f2a44;
-        --muted:#5f6f8a;
-        --accent:#3b82f6;
-        --shadow:0 8px 20px rgba(30,50,90,.12);
-        --r:14px;
-      }
-      *{ box-sizing:border-box; }
-      body{
-        margin:0;
-        font-family: system-ui, -apple-system, "Segoe UI",
-          "Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",sans-serif;
-        background: linear-gradient(180deg, #f9fbff, var(--bg));
-        color:var(--text);
-      }
-      .page-header{
-        position:sticky;
-        top:0;
-        z-index:10;
-        display:flex;
-        justify-content:space-between;
-        gap:12px;
-        padding:16px 18px;
-        border-bottom:1px solid var(--line);
-        background:#ffffffcc;
-        backdrop-filter: blur(6px);
-      }
-      .page-header h1{
-        margin:0;
-        font-size:18px;
-        line-height:1.3;
-      }
-      .page-header p{
-        margin:6px 0 0;
-        font-size:13px;
-        color:var(--muted);
-      }
-      .timer{
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-        min-width:88px;
-        padding:8px 10px;
-        border:1px solid var(--line);
-        border-radius:999px;
-        background:#fff;
-        box-shadow:var(--shadow);
-        font-variant-numeric: tabular-nums;
-      }
-      .container{
-        max-width:1000px;
-        margin:0 auto;
-        padding:18px;
-      }
-      .card{
-        background:var(--card);
-        border:1px solid var(--line);
-        border-radius:var(--r);
-        padding:16px;
-        box-shadow:var(--shadow);
-      }
-      .card + .card{ margin-top:14px; }
-      h2{
-        margin:0 0 10px;
-        font-size:16px;
-      }
-      h3{
-        margin:0 0 10px;
-        font-size:15px;
-      }
-      .block{ display:block; margin-top:12px; }
-      .block span{
-        display:block;
-        color:var(--muted);
-        font-size:13px;
-        margin-bottom:6px;
-      }
-      input[type="text"], textarea{
-        width:100%;
-        border-radius:10px;
-        border:1px solid var(--line);
-        background:#fbfcff;
-        color:var(--text);
-        padding:10px 12px;
-      }
-      textarea{ resize:vertical; min-height:88px; }
-      input[type="file"]{
-        width:100%;
-        border-radius:10px;
-        border:1px dashed #93c5fd;
-        background:#f8fbff;
-        padding:10px 12px;
-      }
-      .btn{
-        border:1px solid transparent;
-        border-radius:10px;
-        padding:10px 14px;
-        background:linear-gradient(180deg, #60a5fa, #3b82f6);
-        color:#fff;
-        font-weight:700;
-        cursor:pointer;
-      }
-      .btn-secondary{
-        background:#fff;
-        color:var(--text);
-        border:1px solid var(--line);
-        box-shadow:var(--shadow);
-        text-decoration:none;
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-      }
-      .form-actions{
-        margin-top:14px;
-        display:flex;
-        justify-content:flex-end;
-        gap:10px;
-      }
-      .page-nav{
-        margin-top:14px;
-        display:flex;
-        gap:10px;
-        flex-wrap:wrap;
-      }
-      .grid{
-        display:grid;
-        grid-template-columns:1.25fr .75fr;
-        gap:14px;
-        margin-top:14px;
-      }
-      .subcard{
-        background:#f8fbff;
-        border:1px dashed #93c5fd;
-      }
-      .chips{
-        display:flex;
-        flex-wrap:wrap;
-        gap:8px;
-        margin-top:10px;
-      }
-      .chip{
-        border:1px solid var(--line);
-        background:#fff;
-        padding:8px 10px;
-        border-radius:999px;
-      }
-      @media (max-width:900px){
-        .grid{ grid-template-columns:1fr; }
-      }
-    </style>
+    <!-- Shared stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_base.css') }}">
   </head>
 
-  <body id="page-base">
+  <body id="page-base" data-lang="ja">
     <header class="page-header">
       <div>
-        <h1>Base No.1 — Pen<br>ベース No.1 — ペン</h1>
-        <p>Control → Assisted の流れ（約15分）</p>
+        <h1>
+          <span data-ja>Base No.1 — Pen<br>ベース No.1 — ペン</span>
+          <span data-en hidden>Base No.1 — Pen</span>
+        </h1>
+        <p>
+          <span data-ja>Control → Assisted の流れ（約15分）</span>
+          <span data-en hidden>Flow from Control to Assisted (approx. 15 min)</span>
+        </p>
       </div>
-      <span id="timer-display" class="timer">⏱ 00:00</span>
+
+      <div style="display:flex; gap:10px; align-items:center;">
+        <div class="lang-switch">
+          <button type="button" class="btn btn-secondary" onclick="setLang('ja')">JP</button>
+          <button type="button" class="btn btn-secondary" onclick="setLang('en')">EN</button>
+        </div>
+        <span id="timer-display" class="timer">⏱ 00:00</span>
+      </div>
     </header>
 
     <main class="container">
       <section class="card">
-        <h2>ベース対象</h2>
+        <h2>
+          <span data-ja>ベース対象</span>
+          <span data-en hidden>Base Object</span>
+        </h2>
         <p>
-          <strong>ペン：</strong>
-          鉛筆・ボールペン・万年筆・マーカーなどの一般的な筆記具。
-          必要に応じて、クリップ・キャップ・ホルダーなど周辺アクセサリも含めて構いません。
+          <span data-ja>
+            <strong>ペン：</strong>
+            鉛筆・ボールペン・万年筆・マーカーなどの一般的な筆記具。
+            必要に応じて、クリップ・キャップ・ホルダーなど周辺アクセサリも含めて構いません。
+          </span>
+          <span data-en hidden>
+            <strong>Pen:</strong>
+            General writing instruments such as pencils, ballpoint pens,
+            fountain pens, and markers. Accessories such as clips, caps,
+            or holders may be included if relevant.
+          </span>
         </p>
       </section>
 
       <div class="grid">
-        <form id="form-base1" class="card" method="POST" action="{{ url_for('base1') }}" enctype="multipart/form-data">
+        <form
+          id="form-base1"
+          class="card"
+          method="POST"
+          action="{{ url_for('base1') }}"
+          enctype="multipart/form-data"
+        >
           <input type="hidden" name="base_id" value="1">
           <input type="hidden" name="base_name" value="Pen">
           <input type="hidden" name="step" value="control">
 
-          <h2>ステップA — ベースの記述</h2>
+          <h2>
+            <span data-ja>ステップA — ベースの記述</span>
+            <span data-en hidden>Step A — Describe the Base</span>
+          </h2>
+
           <label class="block">
-            <span>あなたの理解・前提</span>
-            <textarea name="base_desc" rows="3" required
-              placeholder="（例）紙に印をつける携帯ツール …"></textarea>
+            <span data-ja>あなたの理解・前提</span>
+            <span data-en hidden>Your understanding / assumptions</span>
+            <textarea
+              name="base_desc"
+              rows="3"
+              required
+              placeholder="e.g. A portable tool used to mark on paper"
+            ></textarea>
           </label>
 
-          <h2 style="margin-top:14px;">ステップB — アイデア1（Control）</h2>
+          <h2 style="margin-top:14px;">
+            <span data-ja>ステップB — アイデア1（Control）</span>
+            <span data-en hidden>Step B — Idea 1 (Control)</span>
+          </h2>
 
           <label class="block">
-            <span>問題点の記述（3〜5語句）</span>
-            <input name="descriptors" type="text" required
-              placeholder="重い, 滑りやすい, 乾きやすい">
+            <span data-ja>問題点の記述（3〜5語句）</span>
+            <span data-en hidden>Problem descriptors (3–5 words)</span>
+            <input
+              name="descriptors"
+              type="text"
+              required
+              placeholder="heavy, slippery, dries quickly"
+            >
           </label>
 
           <label class="block">
-            <span>任意のキーワード</span>
-            <input name="keywords" type="text" placeholder="マグネット, リフィル, エコ">
+            <span data-ja>任意のキーワード</span>
+            <span data-en hidden>Optional keywords</span>
+            <input
+              name="keywords"
+              type="text"
+              placeholder="magnet, refill, eco"
+            >
           </label>
 
           <label class="block">
-            <span>組合理由（2〜3文）</span>
-            <textarea name="reason" rows="3" required
-              placeholder="なぜこの構想か／誰のどの課題を解決するか。"></textarea>
+            <span data-ja>組合理由（2〜3文）</span>
+            <span data-en hidden>Reasoning (2–3 sentences)</span>
+            <textarea
+              name="reason"
+              rows="3"
+              required
+              placeholder="Why this idea? What problem does it solve, and for whom?"
+            ></textarea>
           </label>
 
           <label class="block">
-            <span>提案コンセプト（1〜3文）</span>
-            <textarea name="concept" rows="3" required
-              placeholder="アイデアの要点を簡潔に書く。"></textarea>
+            <span data-ja>提案コンセプト（1〜3文）</span>
+            <span data-en hidden>Proposed concept (1–3 sentences)</span>
+            <textarea
+              name="concept"
+              rows="3"
+              required
+              placeholder="Summarize the core idea."
+            ></textarea>
           </label>
 
           <div class="form-actions">
-            <button type="submit" class="btn">送信して続行</button>
+            <button type="submit" class="btn">
+              <span data-ja>送信して続行</span>
+              <span data-en hidden>Submit & Continue</span>
+            </button>
           </div>
         </form>
 
-        <!-- New version: right-side "example" panel (you can wire these dynamically later) -->
         <aside class="card subcard">
-          <h2>副加要素（表示例）</h2>
+          <h2>
+            <span data-ja>副加要素（表示例）</span>
+            <span data-en hidden>Additive Elements (Examples)</span>
+          </h2>
           <div class="chips">
-            <div class="chip">滑り止め</div>
-            <div class="chip">軽量化</div>
-            <div class="chip">片手操作</div>
+            <div class="chip">滑り止め / Grip</div>
+            <div class="chip">軽量化 / Lightweight</div>
+            <div class="chip">片手操作 / One-hand use</div>
           </div>
 
           <div style="margin-top:14px;">
-            <h3>送信後</h3>
-            <ol style="margin:0; padding-left:18px; color:var(--muted); font-size:13px; line-height:1.6;">
-              <li>システムが <em>Contrary 特徴</em> と <em>Additive 候補</em> を表示します。</li>
-              <li>次に <strong>アイデア2（Assisted）</strong> を作成します。</li>
+            <h3>
+              <span data-ja>送信後</span>
+              <span data-en hidden>After submission</span>
+            </h3>
+            <ol class="muted-ol">
+              <li>
+                <span data-ja>Contrary 特徴 と Additive 候補が表示されます。</span>
+                <span data-en hidden>The system shows Contrary features and Additive candidates.</span>
+              </li>
+              <li>
+                <span data-ja>次にアイデア2（Assisted）を作成します。</span>
+                <span data-en hidden>You will then create Idea 2 (Assisted).</span>
+              </li>
             </ol>
           </div>
         </aside>
       </div>
 
       <nav class="page-nav">
-        <a class="btn btn-secondary" href="{{ url_for('instructions2') }}">戻る</a>
-        <a class="btn btn-secondary" href="{{ url_for('base2') }}">保存して後で再開</a>
+        <a class="btn btn-secondary" href="{{ url_for('instructions2') }}">
+          <span data-ja>戻る</span>
+          <span data-en hidden>Back</span>
+        </a>
+        <a class="btn btn-secondary" href="{{ url_for('base2') }}">
+          <span data-ja>保存して後で再開</span>
+          <span data-en hidden>Save & Resume Later</span>
+        </a>
       </nav>
     </main>
 
-    <!-- Timer: keeps your original localStorage behavior -->
     <script>
+      /* ===== Language toggle ===== */
+      function setLang(lang){
+        document.body.dataset.lang = lang;
+        document.querySelectorAll('[data-ja]').forEach(el=>{
+          el.hidden = (lang !== 'ja');
+        });
+        document.querySelectorAll('[data-en]').forEach(el=>{
+          el.hidden = (lang !== 'en');
+        });
+      }
+
+      /* ===== Timer ===== */
       let startTime, timerInterval;
 
       function startTimer() {
-        // Resume if a start time exists (optional)
         const saved = localStorage.getItem('base1Start');
         startTime = saved ? Number(saved) : Date.now();
         localStorage.setItem('base1Start', String(startTime));
