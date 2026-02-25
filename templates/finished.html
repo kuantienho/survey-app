@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Finished | AI-Assisted Creative Combination Study</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body id="page-instructions">
+  <header id="instr-header">
+    <h1 id="instr-header__title">AI-Assisted Ideation through Contrary and Base-Additive Combinational Framework</h1>
+    <h2 id="instr-header__subtitle">Finished / 完了</h2>
+  </header>
+
+  <main id="instr-container">
+    <section id="finish-content" lang="en">
+      <h1 class="instr__title">✅ You have completed all tasks</h1>
+
+      <p class="instr__p">
+        Thank you for participating. Your responses have been recorded successfully.
+      </p>
+
+      <div class="instr__visual-placeholder">
+        <strong>Submission status:</strong>
+        <div style="margin-top:10px; display:flex; justify-content:center;">
+          <span class="timer" style="min-width:140px;">
+            ✅ {{ submitted_n }} / {{ needed_n }} submitted
+          </span>
+        </div>
+      </div>
+
+      {% if submitted_n < needed_n %}
+      <p class="instr__p" style="color: var(--muted);">
+        It looks like not all tasks were saved yet. Please go back and continue.
+      </p>
+      {% else %}
+      <p class="instr__p" style="color: var(--muted);">
+        You can close this window now.
+      </p>
+      {% endif %}
+
+      <div class="instr-actions">
+        {% if submitted_n < needed_n %}
+          <a class="btn" href="{{ url_for('resume') }}">Continue</a>
+        {% else %}
+          <button class="btn" type="button" onclick="tryCloseWindow()">Close Window</button>
+        {% endif %}
+      </div>
+
+      <p class="instr__p" style="font-size:13px; color: var(--muted); text-align:center; margin-top:16px;">
+        If the browser doesn’t allow closing automatically, please close the tab manually.
+      </p>
+    </section>
+
+    <script>
+      function tryCloseWindow(){
+        // Some browsers block window.close() unless opened by script.
+        window.close();
+      }
+    </script>
+  </main>
+</body>
+</html>

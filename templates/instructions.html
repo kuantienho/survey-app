@@ -67,9 +67,11 @@
       </p>
 
       <div class="instr-actions">
-        <a href="{{ url_for('instructions2') }}" class="btn">
-          I understand. Proceed to experiment details
-        </a>
+        <form method="POST" action="{{ url_for('instructions') }}">
+          <button type="submit" class="btn">
+            I understand. Proceed to experiment details
+          </button>
+        </form>
       </div>
     </section>
 
@@ -149,9 +151,11 @@
       </p>
 
       <div class="instr-actions">
-        <a href="{{ url_for('instructions2') }}" class="btn">
-          理解しました。次へ進む
-        </a>
+        <form method="POST" action="{{ url_for('instructions') }}">
+          <button type="submit" class="btn">
+            理解しました。次へ進む
+          </button>
+        </form>
       </div>
     </section>
   </main>

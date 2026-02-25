@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Base No.{{ base_id }} | {{ base_meta.en_name }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style_base.css') }}">
+
+  <!-- Placeholder color + input text color (EN/JP comments) -->
+  <style>
+    /* Placeholder color: make the "blank hint text" different from page text */
+    #page-base input::placeholder,
+    #page-base textarea::placeholder {
+      color: #8a8f98;
+      opacity: 1;
+    }
+    /* Firefox */
+    #page-base input::-moz-placeholder,
+    #page-base textarea::-moz-placeholder {
+      color: #8a8f98;
+      opacity: 1;
+    }
+    /* Typed text color (contrast) */
+    #page-base input,
+    #page-base textarea {
+      color: #111;
+    }
+
+    /* 日本語コメント版：
+       プレースホルダー（未入力時の薄い文字）の色を本文と変える */
+    /* Firefox 用 */
+    /* 入力した文字の色（コントラスト確保） */
+  </style>
+</head>
+
+<body id="page-base">
+  <header class="page-header">
+    <div>
+      <h1>
+        Base No.{{ base_id }} — {{ base_meta.en_name }}<br>
+        ベース No.{{ base_id }} — {{ base_meta.ja_name }}
+      </h1>
+      <p>
+        Time limit: 15 min / 上限：15分（各課題）<br>
+        {% if show_hint %}
+          Assisted task: additives will be shown / 副加要素が提示されます
+        {% else %}
+          Control task: no additives / 副加要素は提示されません
+        {% endif %}
+      </p>
+    </div>
+    <span id="timer-display" class="timer">⏱ 00:00</span>
+  </header>
+  
+  <main class="container">
+    <section class="card">
+      <h2>Base Type / ベースの種類</h2>
+      <p>
+        <strong>{{ base_meta.en_name }}:</strong> {{ base_meta.en_desc }}<br>
+        <strong>{{ base_meta.ja_name }}：</strong> {{ base_meta.ja_desc }}
+      </p>
+      {% if base_meta.visual %}
+        <div style="margin-top:12px;">
+          <img
+            src="{{ url_for('static', filename=base_meta.visual) }}"
+            alt="Base visual: {{ base_meta.en_name }}"
+            style="max-width:100%; height:auto; border-radius:12px;"
+            loading="lazy"
+          >
+        </div>
+      {% endif %}
+    </section>
+
+    <div class="grid">
+      <form id="main-form" class="card" method="POST" action="{{ url_for('base', base_id=base_id) }}">
+        <input type="hidden" name="base_id" value="{{ base_id }}">
+        <input type="hidden" name="base_name" value="{{ base_meta.en_name }}">
+
+        <input type="hidden" name="time_spent_sec" id="time_spent_sec" value="">
+        <input type="hidden" name="hint_input_json" id="hint_input_json" value="">
+        <input type="hidden" name="hint_output_json" id="hint_output_json" value="">
+
+        <!-- A -->
+        <h2>Step A — Choose & Describe Your Object / ステップA — 対象を選んで記述</h2>
+        <label class="block">
+          <span>
+            Describe the object you choose to use for ideation (base-type is flexible).<br>
+            下記の「ベースの種類」に近い対象を1つ選び、その対象を説明してください（類似対象でもOK）。
+          </span>
+          <textarea
+            name="base_desc"
+            rows="12"
+            required
+            placeholder="{{ base_meta.ph_base_desc }}{% if base_meta.ph_base_desc_ja %}&#10;&#10;{{ base_meta.ph_base_desc_ja }}{% endif %}"
+          ></textarea>
+        </label>
+
+        <!-- B -->
+        <h2 style="margin-top:14px;">Step B — Describe the Problem / ステップB — 問題点の記述</h2>
+        <label class="block">
+          <span>
+            Please describe the “problem” of the object you chose (≤ 3 sentences).<br>
+            選んだ対象の「不満点・問題点」を3文以内で書いてください。できれば肯定や褒め表現は避けてください。
+          </span>
+
+          <!-- Upgraded: make descriptors bigger by using textarea -->
+          <textarea
+            name="descriptors"
+            rows="10"
+            required
+            placeholder="{{ base_meta.ph_descriptors }}{% if base_meta.ph_descriptors_ja %}&#10;&#10;{{ base_meta.ph_descriptors_ja }}{% endif %}"
+          ></textarea>
+        </label>
+
+        {% if show_hint %}
+        <div class="form-actions" style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button type="button" id="btn-hint" class="btn btn-secondary">
+            Generate Additives / 副加要素を生成
+          </button>
+          <span id="hint-status" class="timer" style="padding:8px 10px;">—</span>
+        </div>
+        {% endif %}
+
+        <!-- Step C at end -->
+        <div style="margin-top:22px;">
+          <h2>Step C — Proposed Concept / ステップC — 提案コンセプト</h2>
+          <label class="block">
+            <span>
+              Based on the problems you wrote, how would you design an idea to improve/solve them?<br>
+              記述した問題点にもとづき、改善・解決するためのアイデア／デザインを提案してください。<br><br>
+              {% if show_hint %}
+                If additives are shown, use at least ONE additive. Explain what feature inspired you and how it relates to your idea.<br>
+                副加要素が提示される場合、最低1つは使用してください：どの特徴に着想したか、アイデアとどう関係するかを書いてください。<br>
+                （副加要素を物理的にベースへ足す必要はありません。特徴だけ使ってもOKです。）<br><br>
+              {% endif %}
+              Your submission does not have to be the same object as the base (related proposals are OK).<br>
+              提出物は元のベースと同一製品でなくてもOKです（関連提案でもOK）。
+            </span>
+            <textarea
+              name="concept"
+              rows="12"
+              required
+              placeholder="{{ base_meta.ph_concept }}{% if base_meta.ph_concept_ja %}&#10;&#10;{{ base_meta.ph_concept_ja }}{% endif %}"
+            ></textarea>
+          </label>
+
+          <div class="form-actions">
+            <button type="submit" class="btn">
+              Submit & Continue / 送信して続行
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <aside class="card subcard">
+        <h2>Additive Elements / 副加要素</h2>
+
+        {% if show_hint %}
+          <p class="muted">
+            Click “Generate Additives” once. Use the displayed concepts as references only.<br>
+            「生成」ボタンを1回押してください。表示される概念は参考情報のみです。
+          </p>
+          <div id="hint-list" class="chips"></div>
+        {% else %}
+          <p class="muted">
+            No additives will be shown for this task.<br>
+            この課題では副加要素は提示されません。
+          </p>
+        {% endif %}
+      </aside>
+    </div>
+
+    <script>
+      // ===== Timer -> hidden input =====
+      let startTime, timerInterval;
+      const baseId = {{ base_id|tojson }};
+      const startKey = `base${baseId}Start`;
+      const spentKey = `base${baseId}TimeSpent`;
+
+      function startTimer() {
+        const saved = localStorage.getItem(startKey);
+        startTime = saved ? Number(saved) : Date.now();
+        localStorage.setItem(startKey, String(startTime));
+        timerInterval = setInterval(updateTimer, 1000);
+        updateTimer();
+      }
+      function updateTimer() {
+        const d = document.getElementById('timer-display');
+        const t = Math.floor((Date.now() - startTime) / 1000);
+        const m = String(Math.floor(t / 60)).padStart(2, '0');
+        const s = String(t % 60).padStart(2, '0');
+        d.textContent = `⏱ ${m}:${s}`;
+      }
+      function stopTimer() {
+        if (!startTime) return;
+        const total = Math.floor((Date.now() - startTime) / 1000);
+        localStorage.setItem(spentKey, String(total));
+      }
+
+      window.addEventListener('DOMContentLoaded', startTimer);
+      window.addEventListener('beforeunload', stopTimer);
+
+      document.getElementById('main-form').addEventListener('submit', () => {
+        const total = Math.floor((Date.now() - startTime) / 1000);
+        document.getElementById('time_spent_sec').value = String(total);
+        localStorage.setItem(spentKey, String(total));
+      });
+
+      {% if show_hint %}
+      // ===== Hint AJAX =====
+      const btn = document.getElementById('btn-hint');
+      const statusEl = document.getElementById('hint-status');
+      const hintList = document.getElementById('hint-list');
+
+      btn.addEventListener('click', async () => {
+        const fd = new FormData(document.getElementById('main-form'));
+
+        // descriptors only is what API will use
+        const payload = {
+          base_id: Number(fd.get('base_id')),
+          base_name: String(fd.get('base_name') || ''),
+          descriptors: String(fd.get('descriptors') || ''),
+        };
+
+        document.getElementById('hint_input_json').value = JSON.stringify(payload);
+
+        statusEl.textContent = '⏳ Running...';
+        btn.disabled = true;
+
+        try {
+          const res = await fetch(`/api/hint/${baseId}`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload)
+          });
+          if (!res.ok) throw new Error('hint api error');
+          const data = await res.json();
+
+          hintList.innerHTML = '';
+          (data.additives || []).forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'chip';
+            div.textContent = item;
+            hintList.appendChild(div);
+          });
+
+          document.getElementById('hint_output_json').value = JSON.stringify(data);
+          statusEl.textContent = '✅ Ready';
+        } catch (e) {
+          console.error(e);
+          statusEl.textContent = '❌ Failed';
+          alert('Hint generation failed. Please try again.');
+        } finally {
+          btn.disabled = false;
+        }
+      });
+      {% endif %}
+    </script>
+  </main>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin | Export</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 20px; }
+    .card { max-width: 900px; border: 1px solid #eee; border-radius: 14px; padding: 16px; background:#fff; }
+    a.btn { display:inline-block; padding: 10px 14px; border:1px solid #ccc; border-radius: 12px; text-decoration:none; color:#111; background:#fff; margin-right:8px; }
+    a.btn:hover { background:#f5f5f5; }
+    code { background:#f6f6f6; padding:2px 6px; border-radius: 6px; }
+    .muted { color:#666; }
+    ul { margin-top: 6px; }
+  </style>
+</head>
+<body>
+  <h1>Admin — Export</h1>
+
+  <div class="card">
+    <p class="muted">
+      This page downloads a CSV from <code>responses_v2</code> joined with <code>users.username</code>.
+    </p>
+
+    <p>
+      <a class="btn" href="{{ url_for('admin_export_csv') }}?pw={{ request.args.get('pw','') }}">Download responses CSV</a>
+      <a class="btn" href="{{ url_for('admin_responses') }}?pw={{ request.args.get('pw','') }}">View responses</a>
+    </p>
+
+    <hr style="border:none;border-top:1px solid #eee; margin: 14px 0;"/>
+
+    <p>
+      CSV columns (recommended for analysis):
+    </p>
+
+    <ul>
+      <li><code>username</code>, <code>user_id</code></li>
+      <li><code>base_id</code>, <code>is_hint</code></li>
+      <li><code>base_desc</code>, <code>descriptors</code>, <code>keywords</code>, <code>reason</code>, <code>concept</code></li>
+      <li><code>hint_input_json</code>, <code>hint_output_json</code></li>
+      <li><code>time_spent_sec</code>, <code>created_at</code></li>
+    </ul>
+
+    <p class="muted">
+      Tip: keep your <code>ADMIN_PASSWORD</code> private. This page uses query string <code>?pw=...</code>.
+    </p>
+  </div>
+</body>
+</html>
