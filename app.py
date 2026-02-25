@@ -340,6 +340,12 @@ def ensure_schema():
         PASSWORD TEXT
     )
     """)
+    cur.execute("SELECT COUNT(*) FROM users")
+    if cur.fetchone()[0] == 0:
+        cur.execute(
+                "INSERT INTO users (USERNAME, PASSWORD) VALUES (?, ?)",
+                ("admin", "admin")
+            )
 
     # ✅ 2) 再做欄位補齊（ALTER 之前一定要確保表存在）
     cur.execute("PRAGMA table_info(users)")
@@ -395,7 +401,7 @@ def init_schema_once():
     if not _schema_ready:
         ensure_schema()
         _schema_ready = True
-
+        # ✅ 如果 users 表是空的，自動建立第一個帳號
 # =========================================================
 # HELPERS
 # =========================================================
