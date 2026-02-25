@@ -332,7 +332,16 @@ def ensure_schema():
     conn = get_db_connection()
     cur = conn.cursor()
 
-    # USERS extra columns
+    # ✅ 1) 先確保 users 表存在（全新 DB 不會有）
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS users (
+        ID INTEGER PRIMARY KEY AUTOINCREMENT,
+        USERNAME TEXT UNIQUE,
+        PASSWORD TEXT
+    )
+    """)
+
+    # ✅ 2) 再做欄位補齊（ALTER 之前一定要確保表存在）
     cur.execute("PRAGMA table_info(users)")
     cols = {row[1].upper() for row in cur.fetchall()}
 
@@ -343,7 +352,7 @@ def ensure_schema():
     if "PROGRESS" not in cols:
         cur.execute("ALTER TABLE users ADD COLUMN PROGRESS INTEGER DEFAULT 0")
 
-    # RESPONSES_V2 base table
+    # ✅ 3) 建 responses_v2（你原本就有）
     cur.execute("""
     CREATE TABLE IF NOT EXISTS responses_v2 (
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
