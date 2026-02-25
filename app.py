@@ -17,7 +17,11 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "change_me")
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-DB_PATH = os.environ.get("DB_PATH", os.path.join(BASE_DIR, "instance", "users.db"))
+
+# 仍保留你原本的預設：instance/users.db
+DEFAULT_DB_PATH = os.path.join(BASE_DIR, "instance", "users.db")
+DB_PATH = os.environ.get("DB_PATH", DEFAULT_DB_PATH)
+
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "admin_change_me")
 
 # =========================================================
@@ -294,13 +298,32 @@ HINT_FUNC_BY_BASE = {
 # DB
 # =========================================================
 
-def get_db_connection():
-    # ✅ 最小修正：確保 DB 目錄存在（Render 上常見原因）
-    db_dir = os.path.dirname(DB_PATH)
-    if db_dir:
-        os.makedirs(db_dir, exist_ok=True)
+def _pick_working_db_path() -> str:
+    """
+    最小修正 + 更保險：
+    - 優先用你設定的 DB_PATH（預設 instance/users.db）
+    - 如果該路徑不可寫/不可建立，退回到 /tmp/users.db（Render 通常可寫）
+    """
+    p = DB_PATH
 
-    conn = sqlite3.connect(DB_PATH)
+    try:
+        d = os.path.dirname(p)
+        if d:
+            os.makedirs(d, exist_ok=True)
+        # 嘗試在該目錄建立/寫入測試檔（SQLite 要能在目錄寫入）
+        test_file = os.path.join(d if d else ".", ".write_test")
+        with open(test_file, "w", encoding="utf-8") as f:
+            f.write("ok")
+        os.remove(test_file)
+        return p
+    except Exception:
+        return "/tmp/users.db"
+
+
+_EFFECTIVE_DB_PATH = _pick_working_db_path()
+
+def get_db_connection():
+    conn = sqlite3.connect(_EFFECTIVE_DB_PATH)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -320,7 +343,7 @@ def ensure_schema():
     if "PROGRESS" not in cols:
         cur.execute("ALTER TABLE users ADD COLUMN PROGRESS INTEGER DEFAULT 0")
 
-    # RESPONSES_V2 base table (NEW: no KEYWORDS, no REASON; HAS PHASE)
+    # RESPONSES_V2 base table
     cur.execute("""
     CREATE TABLE IF NOT EXISTS responses_v2 (
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -354,10 +377,10 @@ def ensure_schema():
     conn.close()
 
 
-# ✅ 最小修正：不要在 import 時就連 DB（避免 gunicorn worker boot fail）
+# ✅ 最穩：第一次 request 才跑一次 schema（避免 gunicorn boot 時就死）
 _schema_ready = False
 
-@app.before_request
+@app.before_first_request
 def init_schema_once():
     global _schema_ready
     if not _schema_ready:
@@ -459,12 +482,10 @@ def count_submissions(user_id: int) -> int:
 # =========================================================
 
 def save_response_v2(user_id, base_id, is_hint):
-    # kept
     base_desc = request.form.get("base_desc")
     descriptors = request.form.get("descriptors")
     concept = request.form.get("concept")
 
-    # phase (optional)
     phase = request.form.get("phase") or "task"
 
     time_spent = request.form.get("time_spent_sec")
@@ -531,7 +552,6 @@ def resume():
     if not require_login():
         return redirect(url_for("login"))
 
-    # 前置流程 gate（照你現有的）
     stage = session.get("stage")
     if stage is None:
         return redirect(url_for("instructions"))
@@ -539,21 +559,17 @@ def resume():
         return redirect(url_for("instructions2"))
     if stage == "instr2_done":
         return redirect(url_for("bases_intro"))
-    # stage == "bases_done" 才會往下走
 
     user_id = session["user_id"]
     assign_conditions_if_needed(user_id)
 
-    # ✅ 最穩的完成判定：DB 裡已經有 4 筆提交
     if count_submissions(user_id) >= 4:
         return redirect(url_for("finished"))
 
-    # 原本的 sequence/progress 邏輯
     _, seq, _, progress = get_user_state(user_id)
     nxt = current_base_id(seq, progress)
 
     if nxt == 0:
-        # 保險：就算 progress 壞掉，只要 DB >=4 也會在上面擋住
         return redirect(url_for("finished"))
 
     return redirect(url_for("base", base_id=nxt))
@@ -634,7 +650,6 @@ def finished():
     user_id = session["user_id"]
     n = count_submissions(user_id)
 
-    # 讓 finished.html 顯示「你已提交 n/4」
     return render_template("finished.html", submitted_n=n, needed_n=4)
 
 # =========================================================
@@ -652,7 +667,6 @@ def api_hint(base_id):
 
     payload = request.get_json(silent=True) or {}
 
-    # ✅ NEW: descriptors ONLY is used as the text input for hint tool
     descriptors = str(payload.get("descriptors", "")).strip()
     text = descriptors.strip()
 
@@ -679,9 +693,7 @@ def admin_export():
     if pw != ADMIN_PASSWORD:
         return "Forbidden", 403
 
-    # ✅ 最小修正：真正建立 conn（原本會 NameError: conn not defined）
     conn = get_db_connection()
-
     rows = conn.execute("""
         SELECT
             u.USERNAME,
