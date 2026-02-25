@@ -380,7 +380,7 @@ def ensure_schema():
 # ✅ 最穩：第一次 request 才跑一次 schema（避免 gunicorn boot 時就死）
 _schema_ready = False
 
-@app.before_first_request
+@app.before_request
 def init_schema_once():
     global _schema_ready
     if not _schema_ready:
