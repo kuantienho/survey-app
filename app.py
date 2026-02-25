@@ -666,7 +666,14 @@ def admin_export():
     if pw != ADMIN_PASSWORD:
         return "Forbidden", 403
 
-    conn = get_db_connection()
+    def get_db_connection():
+        db_dir = os.path.dirname(DB_PATH)
+        if db_dir:
+            os.makedirs(db_dir, exist_ok=True)   # ✅ 確保資料夾存在
+        conn = sqlite3.connect(DB_PATH)
+        conn.row_factory = sqlite3.Row
+        return conn 
+    
     rows = conn.execute("""
         SELECT
             u.USERNAME,
