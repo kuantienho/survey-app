@@ -295,6 +295,11 @@ HINT_FUNC_BY_BASE = {
 # =========================================================
 
 def get_db_connection():
+    # ✅ 最小修正：確保 DB 目錄存在（Render 上常見原因）
+    db_dir = os.path.dirname(DB_PATH)
+    if db_dir:
+        os.makedirs(db_dir, exist_ok=True)
+
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     return conn
@@ -349,7 +354,15 @@ def ensure_schema():
     conn.close()
 
 
-ensure_schema()
+# ✅ 最小修正：不要在 import 時就連 DB（避免 gunicorn worker boot fail）
+_schema_ready = False
+
+@app.before_request
+def init_schema_once():
+    global _schema_ready
+    if not _schema_ready:
+        ensure_schema()
+        _schema_ready = True
 
 # =========================================================
 # HELPERS
@@ -666,14 +679,9 @@ def admin_export():
     if pw != ADMIN_PASSWORD:
         return "Forbidden", 403
 
-    def get_db_connection():
-        db_dir = os.path.dirname(DB_PATH)
-        if db_dir:
-            os.makedirs(db_dir, exist_ok=True)   # ✅ 確保資料夾存在
-        conn = sqlite3.connect(DB_PATH)
-        conn.row_factory = sqlite3.Row
-        return conn 
-    
+    # ✅ 最小修正：真正建立 conn（原本會 NameError: conn not defined）
+    conn = get_db_connection()
+
     rows = conn.execute("""
         SELECT
             u.USERNAME,
