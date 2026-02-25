@@ -346,7 +346,13 @@ def ensure_schema():
                 "INSERT INTO users (USERNAME, PASSWORD) VALUES (?, ?)",
                 ("admin", "admin")
             )
-
+    for i in range(1, 31):
+        username = f"usera{i:02d}"
+        password = f"passa{i:02d}"
+        cur.execute(
+            "INSERT OR IGNORE INTO users (USERNAME, PASSWORD) VALUES (?, ?)",
+            (username, password)
+        )
     # ✅ 2) 再做欄位補齊（ALTER 之前一定要確保表存在）
     cur.execute("PRAGMA table_info(users)")
     cols = {row[1].upper() for row in cur.fetchall()}
