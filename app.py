@@ -332,7 +332,7 @@ def ensure_schema():
     conn = get_db_connection()
     cur = conn.cursor()
 
-    # ✅ 1) 先確保 users 表存在（全新 DB 不會有）
+    # 1) users 表（最基本欄位）
     cur.execute("""
     CREATE TABLE IF NOT EXISTS users (
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -340,31 +340,51 @@ def ensure_schema():
         PASSWORD TEXT
     )
     """)
-    cur.execute("SELECT COUNT(*) FROM users")
-    if cur.fetchone()[0] == 0:
-        cur.execute(
-                "INSERT INTO users (USERNAME, PASSWORD) VALUES (?, ?)",
-                ("admin", "admin")
-            )
-    for i in range(1, 31):
-        username = f"usera{i:02d}"
-        password = f"passa{i:02d}"
-        cur.execute(
-            "INSERT OR IGNORE INTO users (USERNAME, PASSWORD) VALUES (?, ?)",
-            (username, password)
-        )
-    # ✅ 2) 再做欄位補齊（ALTER 之前一定要確保表存在）
+
+    # 2) 補齊 users 欄位（不破壞既有 DB）
     cur.execute("PRAGMA table_info(users)")
     cols = {row[1].upper() for row in cur.fetchall()}
 
+    if "FULLNAME" not in cols:
+        cur.execute("ALTER TABLE users ADD COLUMN FULLNAME TEXT")
+
+    if "EMAIL" not in cols:
+        cur.execute("ALTER TABLE users ADD COLUMN EMAIL TEXT")
+
     if "SEQUENCE" not in cols:
         cur.execute("ALTER TABLE users ADD COLUMN SEQUENCE TEXT")
+
     if "HINT_PATTERN" not in cols:
         cur.execute("ALTER TABLE users ADD COLUMN HINT_PATTERN TEXT")
+
     if "PROGRESS" not in cols:
         cur.execute("ALTER TABLE users ADD COLUMN PROGRESS INTEGER DEFAULT 0")
 
-    # ✅ 3) 建 responses_v2（你原本就有）
+    # 3) 如果 users 是空的，自動建立帳號
+    cur.execute("SELECT COUNT(*) FROM users")
+    if cur.fetchone()[0] == 0:
+        # admin
+        cur.execute(
+            "INSERT INTO users (USERNAME, PASSWORD, FULLNAME, EMAIL) VALUES (?, ?, ?, ?)",
+            ("admin", "admin", "Administrator", "admin@example.com")
+        )
+
+        # usera01 ~ usera30
+        for i in range(1, 31):
+            cur.execute(
+                """
+                INSERT INTO users (USERNAME, PASSWORD, FULLNAME, EMAIL)
+                VALUES (?, ?, ?, ?)
+                """,
+                (
+                    f"usera{i:02d}",
+                    f"passa{i:02d}",
+                    f"User A{i:02d}",
+                    f"usera{i:02d}@example.com",
+                )
+            )
+
+    # 4) responses_v2（保持你原本的）
     cur.execute("""
     CREATE TABLE IF NOT EXISTS responses_v2 (
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -387,12 +407,6 @@ def ensure_schema():
         FOREIGN KEY(USER_ID) REFERENCES users(id)
     )
     """)
-
-    # Backward-compat: if old table exists and missing PHASE, add it.
-    cur.execute("PRAGMA table_info(responses_v2)")
-    rcols = {row[1].upper() for row in cur.fetchall()}
-    if "PHASE" not in rcols:
-        cur.execute("ALTER TABLE responses_v2 ADD COLUMN PHASE TEXT DEFAULT 'task'")
 
     conn.commit()
     conn.close()
@@ -560,6 +574,10 @@ def login():
         if user:
             session.clear()
             session["user_id"] = user["ID"]
+
+            # ✅ 每次登入，timer 歸零
+            session["timer_start"] = 0
+
             assign_conditions_if_needed(user["ID"])
             return redirect(url_for("resume"))
 
@@ -662,6 +680,29 @@ def base(base_id):
         show_hint=show_hint,
         username=row["USERNAME"],
     )
+@app.route("/save-profile", methods=["POST"])
+def save_profile():
+    if not require_login():
+        return redirect(url_for("login"))
+
+    fullname = (request.form.get("fullname") or "").strip()
+    email = (request.form.get("email") or "").strip()
+
+    if not fullname or not email:
+        return redirect(url_for("finished"))
+
+    user_id = session["user_id"]
+
+    conn = get_db_connection()
+    conn.execute(
+        "UPDATE users SET FULLNAME=?, EMAIL=? WHERE ID=?",
+        (fullname, email, user_id)
+    )
+    conn.commit()
+    conn.close()
+
+    # 重新導回 finished，帶一個提示用 query string
+    return redirect(url_for("finished", saved="1"))
 
 @app.route("/finished")
 def finished():
@@ -671,7 +712,13 @@ def finished():
     user_id = session["user_id"]
     n = count_submissions(user_id)
 
-    return render_template("finished.html", submitted_n=n, needed_n=4)
+    profile_saved = request.args.get("saved") == "1"
+    return render_template(
+        "finished.html",
+        submitted_n=n,
+        needed_n=4,
+        profile_saved=profile_saved
+    )
 
 # =========================================================
 # HINT API
@@ -718,6 +765,8 @@ def admin_export():
     rows = conn.execute("""
         SELECT
             u.USERNAME,
+            u.FULLNAME,
+            u.EMAIL,
             r.USER_ID,
             r.BASE_ID,
             r.IS_HINT,
@@ -740,7 +789,8 @@ def admin_export():
 
     writer = csv.writer(output)
     writer.writerow([
-        "USERNAME", "USER_ID", "BASE_ID", "IS_HINT",
+        "USERNAME",  "FULLNAME", "EMAIL",
+        "USER_ID", "BASE_ID", "IS_HINT",
         "PHASE",
         "BASE_DESC", "DESCRIPTORS", "CONCEPT",
         "HINT_INPUT_JSON", "HINT_OUTPUT_JSON",
@@ -753,7 +803,38 @@ def admin_export():
     resp = Response(output.getvalue(), mimetype="text/csv")
     resp.headers["Content-Disposition"] = "attachment; filename=export.csv"
     return resp
+    
+@app.route("/admin/users.csv")
+def admin_users_csv():
+    pw = request.args.get("pw", "")
+    if pw != ADMIN_PASSWORD:
+        return "Forbidden", 403
 
+    conn = get_db_connection()
+    rows = conn.execute("""
+        SELECT
+            ID, USERNAME, FULLNAME, EMAIL,
+            SEQUENCE, HINT_PATTERN, PROGRESS
+        FROM users
+        ORDER BY ID
+    """).fetchall()
+    conn.close()
+
+    output = StringIO()
+    output.write("\ufeff")  # UTF-8 BOM
+
+    writer = csv.writer(output)
+    writer.writerow([
+        "ID", "USERNAME", "FULLNAME", "EMAIL",
+        "SEQUENCE", "HINT_PATTERN", "PROGRESS"
+    ])
+
+    for r in rows:
+        writer.writerow(list(r))
+
+    resp = Response(output.getvalue(), mimetype="text/csv")
+    resp.headers["Content-Disposition"] = "attachment; filename=users.csv"
+    return resp
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
