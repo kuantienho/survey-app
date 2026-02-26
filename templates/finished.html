@@ -20,6 +20,7 @@
       <p class="instr__p">
         Thank you for participating. Your responses have been recorded successfully.
       </p>
+      
 
       <div class="instr__visual-placeholder">
         <strong>Submission status:</strong>
@@ -38,6 +39,42 @@
       <p class="instr__p" style="color: var(--muted);">
         You can close this window now.
       </p>
+      {% endif %}
+
+      {% if submitted_n >= needed_n %}
+        <form method="POST" action="{{ url_for('save_profile') }}" style="margin-top:18px;">
+          <div style="max-width:520px; margin:0 auto; text-align:left;">
+            <label class="instr__p" style="font-size:14px; margin-bottom:6px; display:block;">
+              Full name / 姓名
+            </label>
+            <input
+              type="text"
+              name="fullname"
+              required
+              placeholder="Your full name"
+              style="width:100%; padding:10px; border-radius:10px; border:1px solid #ccc; margin-bottom:14px;"
+            />
+
+            <label class="instr__p" style="font-size:14px; margin-bottom:6px; display:block;">
+              Email / 電子郵件
+            </label>
+            <input
+              type="email"
+              name="email"
+              required
+              placeholder="name@example.com"
+              style="width:100%; padding:10px; border-radius:10px; border:1px solid #ccc; margin-bottom:14px;"
+            />
+
+            <button class="btn" type="submit">Save / 儲存</button>
+
+            {% if profile_saved %}
+              <p class="instr__p" style="color: var(--muted); margin-top:10px;">
+                ✅ Saved. Thank you!
+              </p>
+            {% endif %}
+          </div>
+        </form>
       {% endif %}
 
       <div class="instr-actions">
